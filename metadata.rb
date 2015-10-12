@@ -20,4 +20,5 @@ description      'Installs and configures Airflow workflow management platform.'
 long_description 'Installs and configures Airflow workflow management platform. More information about Airflow can be found here: https://github.com/airbnb/airflow'
 version          '1.0.0'
 
+depends "apt"
 depends "python"
