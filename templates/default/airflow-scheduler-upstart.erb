@@ -20,7 +20,6 @@ setgid <%= @group %>
 
 start on filesystem or runlevel [2345]
 stop on runlevel [016]
-respawn 5
 
 chdir <%= @config[:core][:airflow_home] %> 
 
