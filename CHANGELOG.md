@@ -4,6 +4,7 @@
 
 - Some foodcritic fixes
 - README updated
+- Fixed some minor attributes issues and cosmetics
 
 ## 0.1.0
 
