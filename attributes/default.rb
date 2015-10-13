@@ -42,7 +42,7 @@ default["airflow"]["config"]["core"]["fernet_key"] = "G3jB5--jCQpRYp7hwUtpfQ_S8z
 # Required webserver airflow.cfg settings
 default["airflow"]["config"]["webserver"]["web_server_host"] = "0.0.0.0"
 default["airflow"]["config"]["webserver"]["web_server_port"] = 8080
-default["airflow"]["config"]["webserver"]["base_url"] = "http//#{node["fqdn"]}#{node["airflow"]["config"]["webserver"]["web_server_port"]}"
+default["airflow"]["config"]["webserver"]["base_url"] = "http//#{node["fqdn"]}:#{node["airflow"]["config"]["webserver"]["web_server_port"]}"
 default["airflow"]["config"]["webserver"]["secret_key"] = "temporary_key"
 default["airflow"]["config"]["webserver"]["expose_config"] = true
 default["airflow"]["config"]["webserver"]["authenticate"] = false
