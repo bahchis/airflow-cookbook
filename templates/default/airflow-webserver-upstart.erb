@@ -21,19 +21,19 @@ setgid <%= @group %>
 start on filesystem or runlevel [2345]
 stop on runlevel [016]
 
-chdir <%= @config[:core][:airflow_home] %> 
+chdir <%= @config["core"]["airflow_home"] %> 
 
-env AIRFLOW_HOME="<%= @config[:core][:airflow_home] %>"
+env AIRFLOW_HOME="<%= @config["core"]["airflow_home"] %>"
 
 script
 
     echo $$ > <%= @run_path %>/airflow-webserver.pid
-    exec /usr/local/bin/airflow webserver --hostname <%= @service[:webserver][:hostname] %> --port <%= @service[:webserver][:port] %> >> <%= @log_path %>/airflow-webserver.log 2>&1
+    exec /usr/local/bin/airflow webserver --hostname <%= @service["webserver"]["hostname"] %> --port <%= @service["webserver"]["port"] %> >> <%= @log_path %>/airflow-webserver.log 2>&1
 
 end script
 
 pre-start script
-    echo "[`date`] Airflow webserver starting on hostname <%= @service[:webserver][:hostname] %> and port <%= @service[:webserver][:port] %>" >> <%= @log_path %>/airflow-webserver.log
+    echo "[`date`] Airflow webserver starting on hostname <%= @service["webserver"]["hostname"] %> and port <%= @service["webserver"]["port"] %>" >> <%= @log_path %>/airflow-webserver.log
 end script
 
 pre-stop script

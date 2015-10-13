@@ -20,27 +20,27 @@ airflow 'airflow_install' do
 	action :install
 end
 
-template "#{node[:airflow][:config][:core][:airflow_home]}/airflow.cfg" do
+template "#{node["airflow"]["config"]["core"]["airflow_home"]}/airflow.cfg" do
   source 'airflow.cfg.erb'
-  owner node[:airflow][:user]
-  group node[:airflow][:group]
-  mode node[:airflow][:config_file_mode]
+  owner node["airflow"]["user"]
+  group node["airflow"]["group"]
+  mode node["airflow"]["config_file_mode"]
   variables({
-  	:config => node[:airflow][:config] 
+  	:config => node["airflow"]["config"] 
   })
 end
 
 bash 'airflow_home_env' do
   code <<-EOH
-      echo "\n# Airflow Home\nexport AIRFLOW_HOME=#{node[:airflow][:config][:core][:airflow_home]}" >> /etc/bash.bashrc
+      echo "\n# Airflow Home\nexport AIRFLOW_HOME=#{node["airflow"]["config"]["core"]["airflow_home"]}" >> /etc/bash.bashrc
     EOH
 end
 
 bash 'airflow_initdb' do
-  user node[:airflow][:user]
-  group node[:airflow][:group]
+  user node["airflow"]["user"]
+  group node["airflow"]["group"]
   environment({
-    'AIRFLOW_HOME' => node[:airflow][:config][:core][:airflow_home]
+    'AIRFLOW_HOME' => node["airflow"]["config"]["core"]["airflow_home"]
   })
   code <<-EOH
       /usr/local/bin/airflow initdb

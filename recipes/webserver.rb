@@ -18,12 +18,12 @@ template "/etc/init/airflow-webserver.conf" do
   group "root"
   mode "0644"
   variables({
-    :config => node[:airflow][:config],
-    :user => node[:airflow][:user], 
-    :group => node[:airflow][:group],
-    :service => node[:airflow][:service],
-    :log_path => node[:airflow][:log_path],
-    :run_path => node[:airflow][:run_path]
+    :config => node["airflow"]["config"],
+    :user => node["airflow"]["user"], 
+    :group => node["airflow"]["group"],
+    :service => node["airflow"]["service"],
+    :log_path => node["airflow"]["log_path"],
+    :run_path => node["airflow"]["run_path"]
   })
 end
 

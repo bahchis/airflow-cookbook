@@ -12,16 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-group node["airflow"]["group"] do
-  gid node["airflow"]["group_gid"]
+group node["airflow""]["group""] do
+  gid node["airflow""]["group_gid""]
 end
 
-user node["airflow"]["user"] do
+user node["airflow""]["user""] do
   comment 'Airflow user'
-  uid node["airflow"]["user_uid"]
-  gid node["airflow"]["group_gid"]
-  home node[:airflow][:user_home_directory]
+  uid node["airflow""]["user_uid""]
+  gid node["airflow""]["group_gid""]
+  home node["airflow"]["user_home_directory"]
   manage_home true
-  shell node[:airflow][:shell]
+  shell node["airflow"]["shell"]
 end
 
