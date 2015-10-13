@@ -12,5 +12,5 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Webserver service configuration
+# Scheduler service configuration
 default["airflow"]["service"]["scheduler"]["dags_folder"] = node["airflow"]["config"]["core"]["dags_folder"]
