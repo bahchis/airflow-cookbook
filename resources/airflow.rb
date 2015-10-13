@@ -14,6 +14,9 @@
 
 resource_name :airflow
 
+actions :install
+default_action :install
+
 property :packages, String, default: "crypto,mysql"
 
 dependencies = {
