@@ -13,7 +13,7 @@
 # limitations under the License.
 
 template "/etc/init/airflow-scheduler.conf" do
-  source 'airflow-scheduler-upstart.erb'
+  source "airflow-scheduler-upstart.erb"
   owner "root"
   group "root"
   mode "0644"

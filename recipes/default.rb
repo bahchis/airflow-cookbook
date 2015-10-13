@@ -21,7 +21,7 @@ airflow 'airflow_install' do
 end
 
 template "#{node["airflow"]["config"]["core"]["airflow_home"]}/airflow.cfg" do
-  source 'airflow.cfg.erb'
+  source "airflow.cfg.erb"
   owner node["airflow"]["user"]
   group node["airflow"]["group"]
   mode node["airflow"]["config_file_mode"]
