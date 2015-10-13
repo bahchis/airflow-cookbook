@@ -15,7 +15,7 @@ Planned to support Centos soon.
 
 ## Resource
 
-- airflow - Used by the  recipe for installing and configuring Airflow.
+- airflow - Used by the default recipe for installing and configuring Airflow.
 
 ## Attributes
 
