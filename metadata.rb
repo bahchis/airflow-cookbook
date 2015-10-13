@@ -18,7 +18,7 @@ maintainer_email 'info@bahchis.com'
 license          'Apache 2.0'
 description      'Installs and configures Airflow workflow management platform.'
 long_description 'Installs and configures Airflow workflow management platform. More information about Airflow can be found here: https://github.com/airbnb/airflow'
-version          '1.0.0'
+version          '1.0.1'
 
 depends "apt"
 depends "python"
