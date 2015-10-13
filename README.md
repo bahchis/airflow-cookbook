@@ -9,7 +9,7 @@ Planned to support Centos soon.
 
 ## Recipes
 
--  - Installs and configures Airflow.
+- default - Installs and configures Airflow.
 - webserver - Configures service for webserver using upstart.
 - scheduler - Configures service for scheduler using upstart.
 
