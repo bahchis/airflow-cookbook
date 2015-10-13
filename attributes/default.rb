@@ -47,7 +47,6 @@ default["airflow"]["config"]["webserver"]["secret_key"] = "temporary_key"
 default["airflow"]["config"]["webserver"]["expose_config"] = true
 default["airflow"]["config"]["webserver"]["authenticate"] = false
 default["airflow"]["config"]["webserver"]["filter_by_owner"] = false
-default["airflow"]["config"]["webserver"]["load_examples"] = false
 
 # Required scheduler airflow.cfg settings
 default["airflow"]["config"]["scheduler"]["job_heartbeat_sec"] = 5
