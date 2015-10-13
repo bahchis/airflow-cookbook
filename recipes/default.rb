@@ -12,11 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include_recipe 'apt'
-include_recipe 'airflow::user'
-include_recipe 'airflow::directories'
+include_recipe "apt"
+include_recipe "airflow::user"
+include_recipe "airflow::directories"
 
-airflow 'airflow_install' do 
+airflow "airflow_install" do 
 	action :install
 end
 
@@ -30,17 +30,17 @@ template "#{node["airflow"]["config"]["core"]["airflow_home"]}/airflow.cfg" do
   })
 end
 
-bash 'airflow_home_env' do
+bash "airflow_home_env" do
   code <<-EOH
       echo "\n# Airflow Home\nexport AIRFLOW_HOME=#{node["airflow"]["config"]["core"]["airflow_home"]}" >> /etc/bash.bashrc
     EOH
 end
 
-bash 'airflow_initdb' do
+bash "airflow_initdb" do
   user node["airflow"]["user"]
   group node["airflow"]["group"]
   environment({
-    'AIRFLOW_HOME' => node["airflow"]["config"]["core"]["airflow_home"]
+    "AIRFLOW_HOME" => node["airflow"]["config"]["core"]["airflow_home"]
   })
   code <<-EOH
       /usr/local/bin/airflow initdb

@@ -27,6 +27,6 @@ template "/etc/init/airflow-scheduler.conf" do
   })
 end
 
-service 'airflow-scheduler' do
+service "airflow-scheduler" do
   action [:enable, :start]
 end

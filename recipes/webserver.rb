@@ -13,7 +13,7 @@
 # limitations under the License.
 
 template "/etc/init/airflow-webserver.conf" do
-  source 'airflow-webserver-upstart.erb'
+  source "airflow-webserver-upstart.erb"
   owner "root"
   group "root"
   mode "0644"
@@ -27,6 +27,6 @@ template "/etc/init/airflow-webserver.conf" do
   })
 end
 
-service 'airflow-webserver' do
+service "airflow-webserver" do
   action [:enable, :start]
 end

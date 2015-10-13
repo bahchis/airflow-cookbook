@@ -17,7 +17,7 @@ group node["airflow"]["group"] do
 end
 
 user node["airflow"]["user"] do
-  comment 'Airflow user'
+  comment "Airflow user"
   uid node["airflow"]["user_uid"]
   gid node["airflow"]["group_gid"]
   home node["airflow"]["user_home_directory"]

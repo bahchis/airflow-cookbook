@@ -48,7 +48,7 @@ action :install do
 	if(airflow_packages.include?("all") || airflow_packages.include?("devel"))
 		dependencies.each do |dependency_index,dependency_arr|
 			log "airflow_#{dependency_index.to_s}_dependencies" do
-			  message 'Installing #{dependency_index.to_s} dependencies.'
+			  message "Installing #{dependency_index.to_s} dependencies."
 			  level :info
 			end
 
@@ -63,7 +63,7 @@ action :install do
 			dependency_key = package.to_sym
 
 			log "airflow_#{package}_dependencies" do
-			  message 'Installing #{package} dependencies.'
+			  message "Installing #{package} dependencies."
 			  level :info
 			end
 
