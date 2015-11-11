@@ -84,4 +84,4 @@ Please see kitchen.yml for examples.
 Apache 2.0 (http://www.apache.org/licenses/LICENSE-2.0)
 
 ## Author
-Sergey Bahchissaraitsev
+[Sergey Bahchissaraitsev](http://www.bahchis.com/about/)
