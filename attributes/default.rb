@@ -33,6 +33,7 @@ default["airflow"]["run_path"] = "/var/run/airflow"
 default["airflow"]["config"]["core"]["airflow_home"] = "/usr/local/lib/airflow"
 default["airflow"]["config"]["core"]["dags_folder"] = "#{node["airflow"]["config"]["core"]["airflow_home"]}/dags"
 default["airflow"]["config"]["core"]["plugins_folder"] = "#{node["airflow"]["config"]["core"]["airflow_home"]}/plugins"
+default["airflow"]["config"]["core"]["base_log_folder"] = "#{node["airflow"]["config"]["core"]["airflow_home"]}/logs"
 default["airflow"]["config"]["core"]["sql_alchemy_conn"] = "sqlite:///#{node["airflow"]["config"]["core"]["airflow_home"]}/airflow.db"
 default["airflow"]["config"]["core"]["executor"] = "LocalExecutor"
 default["airflow"]["config"]["core"]["parallelism"] = 32
