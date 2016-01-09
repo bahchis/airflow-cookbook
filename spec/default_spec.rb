@@ -19,6 +19,10 @@ describe 'airflow::default' do
     expect(chef_run).to create_template('/usr/local/lib/airflow/airflow.cfg')
   end
 
+  it 'run airflow system wide home variable' do 
+    expect(chef_run).to run_bash('airflow_home_env')
+  end
+
   it 'run airflow initdb' do 
     expect(chef_run).to run_bash('airflow_initdb').with({
         code: "/usr/local/bin/airflow initdb"

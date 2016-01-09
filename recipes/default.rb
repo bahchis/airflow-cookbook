@@ -32,7 +32,7 @@ end
 
 bash "airflow_home_env" do
   code <<-EOH
-      echo "\n# Airflow Home\nexport AIRFLOW_HOME=#{node["airflow"]["config"]["core"]["airflow_home"]}" >> /etc/bash.bashrc
+      echo "# Airflow Home\nexport AIRFLOW_HOME=#{node["airflow"]["config"]["core"]["airflow_home"]}" > /etc/profile.d/airflow.sh
     EOH
 end
 
