@@ -17,14 +17,14 @@ resource_name :airflow
 actions :install
 default_action :install
 
-property :packages, String, default: "crypto,mysql"
+property :packages, String, default: "mysql,postgres,samba,hive,jdbc,hdfs,s3,druid,mssql,vertica,slack,crypto,celery,async,ldap,password"
 
 dependencies = {
 	:all => [
-		"libldap2-dev", "libsasl2-dev", "libssl-dev"
+		"libldap2-dev"
 	],
 	:default => [
-		"python-dev", "build-essential"
+		"python-dev", "build-essential", "libssl-dev"
 	],
 	:mysql => [
 		"mysql-client", "libmysqlclient-dev"
@@ -37,6 +37,9 @@ dependencies = {
 	],
 	:crypto => [
 		"libffi-dev"
+	],
+	:hive => [
+		"libsasl2-dev"
 	]
 }
 
