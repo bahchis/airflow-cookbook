@@ -35,7 +35,7 @@ default["airflow"]["config"]["core"]["dags_folder"] = "#{node["airflow"]["config
 default["airflow"]["config"]["core"]["plugins_folder"] = "#{node["airflow"]["config"]["core"]["airflow_home"]}/plugins"
 default["airflow"]["config"]["core"]["base_log_folder"] = "#{node["airflow"]["config"]["core"]["airflow_home"]}/logs"
 default["airflow"]["config"]["core"]["sql_alchemy_conn"] = "sqlite:///#{node["airflow"]["config"]["core"]["airflow_home"]}/airflow.db"
-default["airflow"]["config"]["core"]["executor"] = "LocalExecutor"
+default["airflow"]["config"]["core"]["executor"] = "SequentialExecutor"
 default["airflow"]["config"]["core"]["parallelism"] = 32
 default["airflow"]["config"]["core"]["load_examples"] = false
 default["airflow"]["config"]["core"]["fernet_key"] = "G3jB5--jCQpRYp7hwUtpfQ_S8zLRbRMwX8tr3dehnNU="
