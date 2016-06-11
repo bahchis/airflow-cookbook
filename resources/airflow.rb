@@ -17,65 +17,72 @@ resource_name :airflow
 actions :install
 default_action :install
 
-property :packages, String, default: "mysql,postgres,samba,hive,jdbc,hdfs,s3,druid,mssql,vertica,slack,crypto,celery,async,ldap,password"
+property :packages, String, default: "all_dbs,async,devel_hadoop,celery,crypto,druid,gcp_api,jdbc,hdfs,hive,kerberos,ldap,mssql,mysql,password,postgres,qds,rabbitmq,s3,samba,slack,vertica,cloudant"
 
 dependencies = {
-	:all => [
-		"libldap2-dev"
-	],
-	:default => [
-		"python-dev", "build-essential", "libssl-dev"
-	],
-	:mysql => [
-		"mysql-client", "libmysqlclient-dev"
-	],
-	:postgres => [
-		"postgresql-client", "libpq-dev"
-	],
-	:mssql => [
-		"freetds-dev"
-	],
-	:crypto => [
-		"libffi-dev"
-	],
-	:hive => [
-		"libsasl2-dev"
-	]
-}
+					:ubuntu => {
+						:default => [
+							"python-dev", "build-essential", "libssl-dev"
+						],
+						:mysql => [
+							"mysql-client", "libmysqlclient-dev"
+						],
+						:postgres => [
+							"postgresql-client", "libpq-dev"
+						],
+						:mssql => [
+							"freetds-dev"
+						],
+						:crypto => [
+							"libffi-dev"
+						],
+						:password => [
+							"libffi-dev"
+						],
+						:gcp_api => [
+							"libffi-dev"
+						],
+						:ldap => [
+							"libldap2-dev"
+						],
+						:hive => [
+							"libsasl2-dev"
+						],
+						:devel_hadoop => [
+							"libkrb5-dev"
+						]
+					}
+				}
 
 action :install do
 	include_recipe "python"
 
 	airflow_packages = packages.split(",")
+	platform = node[:platform].to_sym
 
-	if(airflow_packages.include?("all") || airflow_packages.include?("devel"))
-		dependencies.each do |dependency_index,dependency_arr|
-			log "airflow_#{dependency_index.to_s}_dependencies" do
-			  message "Installing #{dependency_index.to_s} dependencies."
-			  level :info
-			end
+	dependencies_to_install = {}
+	dependencies[platform][:default].each do |dependency|
+		dependencies_to_install[dependency.to_sym] = true
+	end
 
-			dependency_arr.each do |dependency|
-				apt_package dependency do
-				  action	:install
-				end			
-			end
+	if(airflow_packages.include?("all") || airflow_packages.include?("oracle"))
+		raise ArgumentError, "Sorry, currently all, devel and oracle airflow pip packages are not supported in this cookbook. For more info, please see the README.md file."
+	end
+
+	# Map dependencies to install
+	airflow_packages.each do |package| 
+		package_key = package.to_sym
+
+		dependencies[platform][package_key].each do |dependency|
+			dependencies_to_install[dependency.to_sym] = true
+		end if dependencies[platform].has_key?(package_key)			
+	end	
+	
+
+	dependencies_to_install.each do |dependency, _|
+		apt_package dependency.to_s do
+		  action	:install
 		end
-	else
-		airflow_packages.unshift("default").each do |package| 
-			dependency_key = package.to_sym
-
-			log "airflow_#{package}_dependencies" do
-			  message "Installing #{package} dependencies."
-			  level :info
-			end
-
-			dependencies[dependency_key].each do |dependency|
-				apt_package dependency do
-				  action	:install
-				end			
-			end if dependencies.has_key?(dependency_key)
-		end	
 	end
 
 	python_pip "airflow"
