@@ -42,5 +42,5 @@ bash "airflow_initdb" do
   environment({
     "AIRFLOW_HOME" => node["airflow"]["config"]["core"]["airflow_home"]
   })
-  code "/usr/local/bin/airflow initdb"
+  code "#{node["airflow"]["bin_path"]}/airflow initdb"
 end

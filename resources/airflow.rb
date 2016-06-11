@@ -51,6 +51,38 @@ dependencies = {
 						:devel_hadoop => [
 							"libkrb5-dev"
 						]
+					},
+					:centos => {
+						:default => [
+							"gcc", "gcc-c++", "epel-release", "python-pip", "python-devel"
+						],
+						:mysql => [
+							"mariadb", "mariadb-devel"
+						],
+						:postgres => [
+							"postgresql", "postgresql-devel"
+						],
+						:mssql => [
+							"freetds-devel"
+						],
+						:crypto => [
+							"libffi-devel"
+						],
+						:password => [
+							"libffi-devel"
+						],
+						:gcp_api => [
+							"libffi-devel"
+						],
+						:ldap => [
+							"cyrus-sasl-devel"
+						],
+						:hive => [
+							"cyrus-sasl-devel"
+						],
+						:devel_hadoop => [
+							"cyrus-sasl-devel"
+						]
 					}
 				}
 
@@ -80,7 +112,7 @@ action :install do
 	
 
 	dependencies_to_install.each do |dependency, _|
-		apt_package dependency.to_s do
+		package dependency.to_s do
 		  action	:install
 		end
 	end
