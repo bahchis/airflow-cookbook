@@ -117,10 +117,14 @@ action :install do
 		end
 	end
 
-	python_pip "airflow"
+	python_pip "airflow" do
+		version node["airflow"]["version"]
+	end
 
 	airflow_packages.each do |package|
-		python_pip "airflow[#{package}]"
+		python_pip "airflow[#{package}]" do
+			version node["airflow"]["version"]
+		end
 	end
 
 end

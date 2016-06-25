@@ -13,6 +13,7 @@
 # limitations under the License.
 
 # User configuration
+default["airflow"]["version"] = nil
 default["airflow"]["user"] = "airflow"
 default["airflow"]["group"] = "airflow"
 default["airflow"]["user_uid"] = 9999
