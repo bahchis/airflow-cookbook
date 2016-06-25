@@ -34,5 +34,5 @@ template service_target do
 end
 
 service "airflow-webserver" do
-  action [:enable, :start]
+  action [:enable]
 end

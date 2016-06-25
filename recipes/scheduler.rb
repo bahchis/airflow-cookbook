@@ -34,5 +34,5 @@ template service_target do
 end
 
 service "airflow-scheduler" do
-  action [:enable, :start]
+  action [:enable]
 end
