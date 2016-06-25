@@ -26,6 +26,7 @@ default["airflow"]["config_file_mode"] = "0644"
 default["airflow"]["bin_path"] = node[:platform] == "ubuntu" ? "/usr/local/bin" : "/usr/bin"
 default["airflow"]["log_path"] = "/var/log/airflow"
 default["airflow"]["run_path"] = "/var/run/airflow"
+default["airflow"]["init_system"] = node[:platform] == "ubuntu" ? "upstart" : "systemd"
 
 # airflow.cfg configurations. The required entries listed below, you can add more sections and configs.
 # The structure default["airflow"]["config"]["CONFIG_SECTION"]["CONFIG_ENTRY"]

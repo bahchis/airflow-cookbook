@@ -12,18 +12,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-template "/etc/init/airflow-scheduler.conf" do
-  source "airflow-scheduler-upstart.erb"
+if (node["airflow"]["init_system"] == "upstart") 
+  service_target = "/etc/init/airflow-scheduler.conf"
+  service_template = "init_system/upstart/airflow-scheduler.conf.erb"
+else
+  service_target = "/usr/lib/systemd/system/airflow-scheduler.service"
+  service_template = "init_system/systemd/airflow-scheduler.service.erb"
+end
+
+template service_target do
+  source service_template
   owner "root"
   group "root"
   mode "0644"
   variables({
-    :config => node["airflow"]["config"],
     :user => node["airflow"]["user"], 
     :group => node["airflow"]["group"],
-    :service => node["airflow"]["service"],
     :log_path => node["airflow"]["log_path"],
-    :run_path => node["airflow"]["run_path"]
+    :run_path => node["airflow"]["run_path"],
+    :bin_path => node["airflow"]["bin_path"]
   })
 end
 

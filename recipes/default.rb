@@ -30,17 +30,13 @@ template "#{node["airflow"]["config"]["core"]["airflow_home"]}/airflow.cfg" do
   })
 end
 
-bash "airflow_home_env" do
-  code <<-EOH
-      echo "# Airflow Home\nexport AIRFLOW_HOME=#{node["airflow"]["config"]["core"]["airflow_home"]}" > /etc/profile.d/airflow.sh
-    EOH
-end
-
-bash "airflow_initdb" do
-  user node["airflow"]["user"]
-  group node["airflow"]["group"]
-  environment({
-    "AIRFLOW_HOME" => node["airflow"]["config"]["core"]["airflow_home"]
+template "airflow_services_env" do
+  source "init_system/airflow-env.erb"
+  path node["airflow"]["init_system"] == "upstart" ? "/etc/default/airflow" : "/etc/sysconfig/airflow"
+  owner "root"
+  group "root"
+  mode "0644"
+  variables({
+    :config => node["airflow"]["config"]
   })
-  code "#{node["airflow"]["bin_path"]}/airflow initdb"
 end

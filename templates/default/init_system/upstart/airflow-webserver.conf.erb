@@ -1,4 +1,4 @@
-# Copyright 2015 Sergey Bahchissaraitsev
+	# Copyright 2015 Sergey Bahchissaraitsev
 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,25 +18,19 @@ author      "Sergey Bahchissaraitsev http://www.bahchis.com"
 setuid <%= @user %>
 setgid <%= @group %>
 
-start on filesystem or runlevel [2345]
-stop on runlevel [016]
-
-chdir <%= @config["core"]["airflow_home"] %> 
-
-env AIRFLOW_HOME="<%= @config["core"]["airflow_home"] %>"
+start on started networking or runlevel [2345]
+stop on stopped networking or runlevel [016]
 
 script
-
-    echo $$ > <%= @run_path %>/airflow-webserver.pid
-    exec /usr/local/bin/airflow webserver --hostname <%= @service["webserver"]["hostname"] %> --port <%= @service["webserver"]["port"] %> >> <%= @log_path %>/airflow-webserver.log 2>&1
-
+    . /etc/default/airflow
+    exec <%= @bin_path %>/airflow webserver --pid <%= @run_path %>/airflow-webserver.pid --log-file <%= @log_path %>/airflow-webserver.log --stdout <%= @log_path %>/airflow-webserver.log --stderr <%= @log_path %>/airflow-webserver.log 2>> <%= @log_path %>/airflow-webserver.log
 end script
 
 pre-start script
-    echo "[`date`] Airflow webserver starting on hostname <%= @service["webserver"]["hostname"] %> and port <%= @service["webserver"]["port"] %>" >> <%= @log_path %>/airflow-webserver.log
+    echo "[`date`] Airflow webserver starting..." >> <%= @log_path %>/airflow-webserver.log
 end script
 
 pre-stop script
     rm <%= @run_path %>/airflow-webserver.pid
-    echo "[`date`] Airflow webserver shutting down" >> <%= @log_path %>/airflow-webserver.log
+    echo "[`date`] Airflow webserver shutting down..." >> <%= @log_path %>/airflow-webserver.log
 end script
