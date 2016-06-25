@@ -6,7 +6,7 @@ After=network.target
 EnvironmentFile=/etc/sysconfig/airflow
 User=<%= @user %>
 Group=<%= @group %>
-ExecStart=<%= @bin_path %>/airflow webserver --pid <%= @run_path %>/airflow-webserver.pid --log-file <%= @log_path %>/airflow-webserver.log --stdout <%= @log_path %>/airflow-webserver.log --stderr <%= @log_path %>/airflow-webserver.log
+ExecStart=<%= @bin_path %>/airflow webserver --pid <%= @run_path %>/airflow-webserver.pid
 Restart=always
 
 [Install]

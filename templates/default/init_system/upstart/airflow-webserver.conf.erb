@@ -23,7 +23,7 @@ stop on stopped networking or runlevel [016]
 
 script
     . /etc/default/airflow
-    exec <%= @bin_path %>/airflow webserver --pid <%= @run_path %>/airflow-webserver.pid --log-file <%= @log_path %>/airflow-webserver.log --stdout <%= @log_path %>/airflow-webserver.log --stderr <%= @log_path %>/airflow-webserver.log 2>> <%= @log_path %>/airflow-webserver.log
+    exec <%= @bin_path %>/airflow webserver --pid <%= @run_path %>/airflow-webserver.pid 2>> <%= @log_path %>/airflow-webserver.log
 end script
 
 pre-start script
