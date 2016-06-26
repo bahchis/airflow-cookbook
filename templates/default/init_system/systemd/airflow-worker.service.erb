@@ -1,0 +1,13 @@
+[Unit]
+Description=Airflow worker daemon
+After=network.target
+
+[Service]
+EnvironmentFile=/etc/sysconfig/airflow
+User=<%= @user %>
+Group=<%= @group %>
+ExecStart=<%= @bin_path %>/airflow worker --pid <%= @run_path %>/airflow-worker.pid
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

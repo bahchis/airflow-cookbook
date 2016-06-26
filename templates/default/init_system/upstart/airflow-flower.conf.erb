@@ -1,0 +1,36 @@
+	# Copyright 2015 Sergey Bahchissaraitsev
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+#     http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+description "Airflow flower"
+author      "Sergey Bahchissaraitsev http://www.bahchis.com"
+
+setuid <%= @user %>
+setgid <%= @group %>
+
+start on started networking or runlevel [2345]
+stop on stopped networking or runlevel [016]
+
+script
+    . /etc/default/airflow
+    exec <%= @bin_path %>/airflow flower --pid <%= @run_path %>/airflow-flower.pid 2>> <%= @log_path %>/airflow-flower.log
+end script
+
+pre-start script
+    echo "[`date`] Airflow flower starting..." >> <%= @log_path %>/airflow-flower.log
+end script
+
+pre-stop script
+    rm <%= @run_path %>/airflow-flower.pid
+    echo "[`date`] Airflow flower shutting down..." >> <%= @log_path %>/airflow-flower.log
+end script

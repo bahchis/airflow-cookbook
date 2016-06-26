@@ -1,0 +1,13 @@
+[Unit]
+Description=Airflow flower daemon
+After=network.target
+
+[Service]
+EnvironmentFile=/etc/sysconfig/airflow
+User=<%= @user %>
+Group=<%= @group %>
+ExecStart=<%= @bin_path %>/airflow flower --pid <%= @run_path %>/airflow-flower.pid
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
