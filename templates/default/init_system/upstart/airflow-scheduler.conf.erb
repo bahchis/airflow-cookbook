@@ -23,14 +23,14 @@ stop on stopped networking or runlevel [016]
 
 script
     . /etc/default/airflow
-    exec <%= @bin_path %>/airflow scheduler --pid <%= @run_path %>/airflow-scheduler.pid 2>> <%= @log_path %>/airflow-scheduler.log
+    exec <%= @bin_path %>/airflow scheduler --pid <%= @run_path %>/airflow-scheduler.pid
 end script
 
 pre-start script
-    echo "[`date`] Airflow scheduler starting..." >> <%= @log_path %>/airflow-scheduler.log
+    echo "[`date`] Airflow scheduler starting..."
 end script
 
 pre-stop script
 	rm <%= @run_path %>/airflow-webserver.pid
-    echo "[`date`] Airflow scheduler shutting down..." >> <%= @log_path %>/airflow-scheduler.log
+    echo "[`date`] Airflow scheduler shutting down..."
 end script
