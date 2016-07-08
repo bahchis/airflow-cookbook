@@ -28,8 +28,15 @@ default["airflow"]["bin_path"] = node[:platform] == "ubuntu" ? "/usr/local/bin" 
 default["airflow"]["run_path"] = "/var/run/airflow"
 default["airflow"]["init_system"] = node[:platform] == "ubuntu" ? "upstart" : "systemd"
 
-# Configurations stated below are required for this cookbook and wiill be written to airflow.cfg, you can add more config by using structure like:
+# Configurations stated below are required for this cookbook and will be written to airflow.cfg, you can add more config by using structure like:
 # default["airflow"]["config"]["CONFIG_SECTION"]["CONFIG_ENTRY"]
+
+# Core
 default["airflow"]["config"]["core"]["airflow_home"] = node[:platform] == "ubuntu" ? "/usr/local/lib/airflow" : "/usr/lib/airflow"
 default["airflow"]["config"]["core"]["dags_folder"] = "#{node["airflow"]["config"]["core"]["airflow_home"]}/dags"
 default["airflow"]["config"]["core"]["plugins_folder"] = "#{node["airflow"]["config"]["core"]["airflow_home"]}/plugins"
+default["airflow"]["config"]["core"]["sql_alchemy_conn"] = "sqlite:///#{node["airflow"]["config"]["core"]["airflow_home"]}/airflow.db"
+default["airflow"]["config"]["core"]["fernet_key"] = "G3jB5--jCQpRYp7hwUtpfQ_S8zLRbRMwX8tr3dehnNU=" # Be sure to change this for production
+# Celery
+default["airflow"]["config"]["celery"]["celeryd_concurrency"] = 16
+
