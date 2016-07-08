@@ -37,6 +37,7 @@ template "airflow_services_env" do
   group "root"
   mode "0644"
   variables({
+    :platform => node[:platform],
     :config => node["airflow"]["config"]
   })
 end

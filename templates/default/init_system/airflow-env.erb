@@ -1,1 +1,3 @@
-AIRFLOW_HOME="<%= @config["core"]["airflow_home"] %>"
+<% if @platform == "ubuntu" -%>
+<%= "export " -%>
+<% end -%>AIRFLOW_HOME="<%= @config["core"]["airflow_home"] %>"
