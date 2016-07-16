@@ -5,14 +5,27 @@ Installs and configures Airflow workflow management platform. More information a
 
 ## Supported Platforms
 
-Ubuntu (Tested on ubuntu 14.04).
-Planned to support Centos soon.
+Ubuntu (Tested on 14.04).
+CentOS (Tested on 7.2).
+
+## Limitations
+
+The Airflow **all** and **oracle** packages are not supported, this is due the Oracle package having dependencies which cannot be automatically installed. I will look how to solve this and add support for those packages at later stage.
+
+## Usage
+
+- Use the relevant cookbooks to install and configure Airflow.
+- Use environment variable in /etc/default/airflow (for Ubuntu) or /etc/sysconfig/airflow (for CentOS) to configure Airflow during the startup process. (More info about Airflow environment variables at: [Setting Configuration Options](https://pythonhosted.org/airflow/configuration.html#setting-configuration-options))
+- Make sure to run **airflow initdb** as part of your startup script.
 
 ## Recipes
 
 - default - Installs and configures Airflow.
-- webserver - Configures service for webserver using upstart.
-- scheduler - Configures service for scheduler using upstart.
+- webserver - Configures service for webserver.
+- scheduler - Configures service for scheduler.
+- worker - Configures service for worker.
+- flower - Configures service for flower.
+- kerberos - Configures service for kerberos.
 
 ## Resource
 
@@ -20,9 +33,8 @@ Planned to support Centos soon.
 
 ## Attributes
 
-### Default 
-
 ##### User config
+- ["airflow"]["version"] = The version of airflow to install, defaults to latest (nil).
 - ["airflow"]["user"] - The user Airflow is executed with and owner of all related folders.
 - ["airflow"]["group"] - Airflow user group.
 - ["airflow"]["user_uid"] - Airflow user uid
@@ -33,53 +45,13 @@ Planned to support Centos soon.
 ##### General config
 - ["airflow"]["directories_mode"] - The permissions airflow and user directories are created.
 - ["airflow"]["config_file_mode"] - The permissions airflow.cfg is created.
-- ["airflow"]["log_path"] - Log files base directory.
+- ["airflow"]["bin_path"] - Path to the bin folder, default is based on platform.
 - ["airflow"]["run_path"] - Pid files base directory
+- ["airflow"]["init_system"] - The init system to use when configuring services, only upstart or systemd are supported and defaults based on platfrom.
 
-##### Core config
-- ["airflow"]["config"]["core"]["airflow_home"] - Airflow home direcotory.
-- ["airflow"]["config"]["core"]["dags_folder"] - Airflow dags directory.
-- ["airflow"]["config"]["core"]["plugins_folder"] - Airflow plugins directory.
-- ["airflow"]["config"]["core"]["sql_alchemy_conn"] - Sql Alchemy connection url.
-- ["airflow"]["config"]["core"]["executor"] - Airflow executor.
-- ["airflow"]["config"]["core"]["parallelism"] - Executoer maximum tasks in parallel.
-- ["airflow"]["config"]["core"]["load_examples"] - wherther to load examples.
-- ["airflow"]["config"]["core"]["fernet_key"] - Key for saving connections password in DB.
-
-##### Webserver config
-- ["airflow"]["config"]["webserver"]["web_server_host"] - Webserver host in config.
-- ["airflow"]["config"]["webserver"]["web_server_port"] - Webserver port in config.
-- ["airflow"]["config"]["webserver"]["base_url"] - Webserver URL.
-- ["airflow"]["config"]["webserver"]["secret_key"] - Secret flask key.
-- ["airflow"]["config"]["webserver"]["expose_config"] - Whether expose config in webserver.
-- ["airflow"]["config"]["webserver"]["authenticate"] - Whether to authentificate user on webserver.
-- ["airflow"]["config"]["webserver"]["filter_by_owner"] - Filter dags by owner name.
-
-##### Scheduler config
-- ["airflow"]["config"]["scheduler"]["job_heartbeat_sec"] - Seconds to listen for CLI kill signal.
-- ["airflow"]["config"]["scheduler"]["scheduler_heartbeat_sec"] - How ofen scheuler runs to trigger new tasks.
-
-##### Celery config
-- ["airflow"]["config"]["celery"]["celery_app_name"] - Celery app name.
-- ["airflow"]["config"]["celery"]["celeryd_concurrency"] - Worker concurrent tasks.
-- ["airflow"]["config"]["celery"]["worker_log_server_port"] - Worker log webserver port.
-- ["airflow"]["config"]["celery"]["broker_url"] - Celery broker url.
-- ["airflow"]["config"]["celery"]["celery_result_backend"] - Celery backend URL.
-- ["airflow"]["config"]["celery"]["flower_port"] - Flower port.
-- ["airflow"]["config"]["celery"]["default_queue"] - The default queue to assignment and workers listening on.
-
-### Webserver
-
-- ["airflow"]["service"]["webserver"]["hostname"] - The host name webserver service will be lunched with as argument.
-- ["airflow"]["service"]["webserver"]["port"] - The port name webserver service will be lunched with as argument.
-
-### Scheduler
-
-- ["airflow"]["service"]["scheduler"]["dags_folder"] - The dags folder path scheduler service will be lunched with as argument.
-
-## Usage
-
-Please see kitchen.yml for examples.
+##### airflow.cfg
+This cookbook enables to configure any airflow.cfg paramters dynamically by using attributes structure like (see the attributes file for [airflow.cfg examples](attributes/default.rb)):
+["airflow"]["config"]["CONFIG_SECTION"]["CONFIG_ENTRY"]
 
 ## License
 Apache 2.0 (http://www.apache.org/licenses/LICENSE-2.0)
