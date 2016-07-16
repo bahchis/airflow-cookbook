@@ -1,5 +1,11 @@
 # Airflow cookbook changelog
 
+## 1.1.0
+
+ - Added CentOS support
+ - Flower, kerberos and worker services
+ - New airflow packages support
+
 ## 1.0.1
 
 - Some foodcritic fixes
