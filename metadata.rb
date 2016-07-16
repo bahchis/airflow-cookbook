@@ -1,4 +1,4 @@
-# Copyright 2015 Sergey Bahchissaraitsev
+	# Copyright 2015 Sergey Bahchissaraitsev
 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,6 +19,8 @@ license          'Apache 2.0'
 description      'Installs and configures Airflow workflow management platform.'
 long_description 'Installs and configures Airflow workflow management platform. More information about Airflow can be found here: https://github.com/airbnb/airflow'
 version          '1.0.1'
+supports         'ubuntu', '>= 14.04'
+supports         'centos', '>= 7.0'
 
 depends "apt"
 depends "python"
