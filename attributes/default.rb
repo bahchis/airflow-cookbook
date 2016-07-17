@@ -24,15 +24,15 @@ default["airflow"]["shell"] = "/bin/bash"
 # General config
 default["airflow"]["directories_mode"] = "0775"
 default["airflow"]["config_file_mode"] = "0644"
-default["airflow"]["bin_path"] = node[:platform] == "ubuntu" ? "/usr/local/bin" : "/usr/bin"
+default["airflow"]["bin_path"] = node["platform"] == "ubuntu" ? "/usr/local/bin" : "/usr/bin"
 default["airflow"]["run_path"] = "/var/run/airflow"
-default["airflow"]["init_system"] = node[:platform] == "ubuntu" ? "upstart" : "systemd"
+default["airflow"]["init_system"] = node["platform"] == "ubuntu" ? "upstart" : "systemd"
 
 # Configurations stated below are required for this cookbook and will be written to airflow.cfg, you can add more config by using structure like:
 # default["airflow"]["config"]["CONFIG_SECTION"]["CONFIG_ENTRY"]
 
 # Core
-default["airflow"]["config"]["core"]["airflow_home"] = node[:platform] == "ubuntu" ? "/usr/local/lib/airflow" : "/usr/lib/airflow"
+default["airflow"]["config"]["core"]["airflow_home"] = node["platform"] == "ubuntu" ? "/usr/local/lib/airflow" : "/usr/lib/airflow"
 default["airflow"]["config"]["core"]["dags_folder"] = "#{node["airflow"]["config"]["core"]["airflow_home"]}/dags"
 default["airflow"]["config"]["core"]["plugins_folder"] = "#{node["airflow"]["config"]["core"]["airflow_home"]}/plugins"
 default["airflow"]["config"]["core"]["sql_alchemy_conn"] = "sqlite:///#{node["airflow"]["config"]["core"]["airflow_home"]}/airflow.db"

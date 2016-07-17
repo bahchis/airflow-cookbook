@@ -90,7 +90,7 @@ action :install do
 	include_recipe "python"
 
 	airflow_packages = packages.split(",")
-	platform = node[:platform].to_sym
+	platform = node["platform"].to_sym
 
 	dependencies_to_install = {}
 	dependencies[platform][:default].each do |dependency|
