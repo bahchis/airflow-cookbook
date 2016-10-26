@@ -32,7 +32,7 @@ end
 
 template "airflow_services_env" do
   source "init_system/airflow-env.erb"
-  path node["airflow"]["init_system"] == "upstart" ? "/etc/default/airflow" : "/etc/sysconfig/airflow"
+  path node["airflow"]["env_path"]
   owner "root"
   group "root"
   mode "0644"

@@ -21,6 +21,7 @@ provisioner:
 
 platforms:
   - name: ubuntu-14.04
+  - name: ubuntu-16.04
   - name: centos-7.2
 
 suites:
@@ -28,6 +29,7 @@ suites:
     run_list:
       - recipe[airflow::default]
     attributes:
+
   - name: airflow-webserver
     run_list:
       - recipe[airflow::default]

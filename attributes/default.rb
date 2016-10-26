@@ -27,6 +27,7 @@ default["airflow"]["config_file_mode"] = "0644"
 default["airflow"]["bin_path"] = node["platform"] == "ubuntu" ? "/usr/local/bin" : "/usr/bin"
 default["airflow"]["run_path"] = "/var/run/airflow"
 default["airflow"]["init_system"] = node["platform"] == "ubuntu" ? "upstart" : "systemd"
+default["airflow"]["env_path"] = node["airflow"]["init_system"] == "upstart" ? "/etc/default/airflow" : "/etc/sysconfig/airflow"
 
 # Configurations stated below are required for this cookbook and will be written to airflow.cfg, you can add more config by using structure like:
 # default["airflow"]["config"]["CONFIG_SECTION"]["CONFIG_ENTRY"]
