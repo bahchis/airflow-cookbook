@@ -40,4 +40,3 @@ default["airflow"]["config"]["core"]["sql_alchemy_conn"] = "sqlite:///#{node["ai
 default["airflow"]["config"]["core"]["fernet_key"] = "G3jB5--jCQpRYp7hwUtpfQ_S8zLRbRMwX8tr3dehnNU=" # Be sure to change this for production
 # Celery
 default["airflow"]["config"]["celery"]["celeryd_concurrency"] = 16
-
