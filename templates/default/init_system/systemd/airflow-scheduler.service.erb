@@ -17,7 +17,7 @@ Description=Airflow scheduler daemon
 After=network.target
 
 [Service]
-EnvironmentFile=/etc/sysconfig/airflow
+EnvironmentFile=<%= @env_path %>
 User=<%= @user %>
 Group=<%= @group %>
 ExecStart=<%= @bin_path %>/airflow scheduler --pid <%= @run_path %>/airflow-scheduler.pid
