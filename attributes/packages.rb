@@ -15,7 +15,7 @@ default['airflow']['packages'] =
   {
     async: [{ name: 'greenlet', version: '>=0.4.9' },
             { name: 'eventlet', version: '>=0.9.7' }],
-    celery: [{ name: 'celery', version: '3.1.17' }],
+    celery: [{ name: 'celery', version: '>=3.1.17' }],
     crypto: [{ name: 'cryptography', version: '>=0.9.3' }],
     doc: [{ name: 'sphinx', version: '>=1.2.3' },
           { name: 'sphinx-argparse', version: '>=0.1.13' },
@@ -47,9 +47,9 @@ default['airflow']['packages'] =
     statsd: [{ name: 'statsd', version: '>=3.0.1, <4.0' }],
     vertica: [{ name: 'vertica-python', version: '>=0.5.1' }],
     ldap: [{ name: 'ldap3', version: '>=0.9.9.1' }],
-    # kerberos: [{ name: 'pykerberos', version: '>=1.1.8' },
-    #            { name: 'thrift_sasl', version: '>=0.2.0' },
-    #            { name: 'snakebite[kerberos]', version: '>=2.7.8' }],
+    kerberos: [{ name: 'pykerberos', version: '>=1.1.8' },
+               { name: 'thrift_sasl', version: '>=0.2.0' },
+               { name: 'snakebite[kerberos]', version: '>=2.7.8' }],
     password: [{ name: 'bcrypt', version: '>=2.0.0' },
                { name: 'flask-bcrypt', version: '>=0.7.1' }],
     github_enterprise: [{ name: 'Flask-OAuthlib', version: '>=0.9.1' }],
@@ -65,7 +65,7 @@ default['airflow']['packages'] =
             { name: 'freezegun', version: '' }]
   }
 
-# OS packages needed for the above python packages. 
+# OS packages needed for the above python packages.
 default['airflow']['dependencies'] =
   {
     ubuntu:
