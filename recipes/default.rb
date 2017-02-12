@@ -15,10 +15,7 @@
 include_recipe "apt::default"
 include_recipe "airflow::user"
 include_recipe "airflow::directories"
-
-airflow "airflow_install" do 
-	action :install
-end
+include_recipe "airflow::packages"
 
 template "#{node["airflow"]["config"]["core"]["airflow_home"]}/airflow.cfg" do
   source "airflow.cfg.erb"
@@ -26,7 +23,7 @@ template "#{node["airflow"]["config"]["core"]["airflow_home"]}/airflow.cfg" do
   group node["airflow"]["group"]
   mode node["airflow"]["config_file_mode"]
   variables({
-  	:config => node["airflow"]["config"] 
+  	:config => node["airflow"]["config"]
   })
 end
 

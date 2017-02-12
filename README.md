@@ -20,19 +20,15 @@ The Airflow **all** and **oracle** packages are not supported, this is due the O
 
 ## Recipes
 
-- default - Installs and configures Airflow.
+- default - Configures Airflow.
 - webserver - Configures service for webserver.
 - scheduler - Configures service for scheduler.
 - worker - Configures service for worker.
 - flower - Configures service for flower.
 - kerberos - Configures service for kerberos.
-
-## Resource
-
-- airflow - Used by the default recipe for installing and configuring Airflow.
+- packages - Installs Airflow and supporting packages. 
 
 ## Attributes
-
 ##### User config
 - ["airflow"]["version"] = The version of airflow to install, defaults to latest (nil).
 - ["airflow"]["user"] - The user Airflow is executed with and owner of all related folders.
@@ -48,6 +44,10 @@ The Airflow **all** and **oracle** packages are not supported, this is due the O
 - ["airflow"]["bin_path"] - Path to the bin folder, default is based on platform.
 - ["airflow"]["run_path"] - Pid files base directory
 - ["airflow"]["init_system"] - The init system to use when configuring services, only upstart or systemd are supported and defaults based on platfrom.
+
+##### Package config
+- default['airflow']['packages'] - The Python packages to install for Airflow.
+- default['airflow']['dependencies'] - The dependencies of the packages listed in default['airflow']['packages']. These are OS packages, not Python packages. 
 
 ##### airflow.cfg
 This cookbook enables to configure any airflow.cfg paramters dynamically by using attributes structure like (see the attributes file for [airflow.cfg examples](attributes/default.rb)):
