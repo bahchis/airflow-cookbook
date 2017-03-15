@@ -10,7 +10,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include_recipe 'poise-python'
+python_runtime node["airflow"]["python_runtime"] do
+  version node["airflow"]["python_version"]
+  provider :system
+  pip_version node["airflow"]["pip_version"]  
+end
 
 # Obtain the current platform name
 platform = node['platform'].to_s

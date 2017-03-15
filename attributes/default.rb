@@ -28,9 +28,11 @@ default["airflow"]["bin_path"] = node["platform"] == "ubuntu" ? "/usr/local/bin"
 default["airflow"]["run_path"] = "/var/run/airflow"
 default["airflow"]["init_system"] = node["platform"] == "ubuntu" ? "upstart" : "systemd"
 
-#Python config
-#Pillow python package requires an upgraded version of pip
-override['poise-python']['options']['pip_version'] = '>=9.0.1'
+
+# Python config
+default["airflow"]["python_runtime"] = "2"
+default["airflow"]["python_version"] = "2.7"
+default["airflow"]["pip_version"] = true
 
 # Configurations stated below are required for this cookbook and will be written to airflow.cfg, you can add more config by using structure like:
 # default["airflow"]["config"]["CONFIG_SECTION"]["CONFIG_ENTRY"]
