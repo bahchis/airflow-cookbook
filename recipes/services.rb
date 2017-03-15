@@ -12,9 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include_recipe "apt::default"
-include_recipe "airflow::user"
-include_recipe "airflow::directories"
-include_recipe "airflow::packages"
-include_recipe "airflow::config"
-include_recipe "airflow::services"
+
+template "airflow_services_env" do
+  source "init_system/airflow-env.erb"
+  path node["airflow"]["init_system"] == "upstart" ? "/etc/default/airflow" : "/etc/sysconfig/airflow"
+  owner "root"
+  group "root"
+  mode "0644"
+  variables({
+    :platform => node[:platform],
+    :config => node["airflow"]["config"]
+  })
+end
