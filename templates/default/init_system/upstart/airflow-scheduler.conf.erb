@@ -31,6 +31,6 @@ pre-start script
 end script
 
 pre-stop script
-	rm <%= @run_path %>/airflow-webserver.pid
+	rm <%= @run_path %>/airflow-scheduler.pid
     echo "[`date`] Airflow scheduler shutting down..."
 end script
