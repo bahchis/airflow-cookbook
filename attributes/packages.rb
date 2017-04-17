@@ -94,7 +94,6 @@ default['airflow']['dependencies'] =
                 { name: 'epel-release', version: '' },
                 { name: 'libjpeg-devel', version: '' },
                 { name: 'zlib-devel', version: '' },
-                { name: 'python-pip', version: '' },
                 { name: 'python-devel', version: '' }],
       mysql: [{ name: 'mariadb', version: '' },
               { name: 'mariadb-devel', version: '' }],

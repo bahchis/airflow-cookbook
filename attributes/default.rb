@@ -29,6 +29,12 @@ default["airflow"]["run_path"] = "/var/run/airflow"
 default["airflow"]["init_system"] = node["platform"] == "ubuntu" ? "upstart" : "systemd"
 default["airflow"]["env_path"] = node["airflow"]["init_system"] == "upstart" ? "/etc/default/airflow" : "/etc/sysconfig/airflow"
 
+
+# Python config
+default["airflow"]["python_runtime"] = "2"
+default["airflow"]["python_version"] = "2.7"
+default["airflow"]["pip_version"] = true
+
 # Configurations stated below are required for this cookbook and will be written to airflow.cfg, you can add more config by using structure like:
 # default["airflow"]["config"]["CONFIG_SECTION"]["CONFIG_ENTRY"]
 
