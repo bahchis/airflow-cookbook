@@ -26,8 +26,9 @@ default["airflow"]["directories_mode"] = "0775"
 default["airflow"]["config_file_mode"] = "0644"
 default["airflow"]["bin_path"] = node["platform"] == "ubuntu" ? "/usr/local/bin" : "/usr/bin"
 default["airflow"]["run_path"] = "/var/run/airflow"
-default["airflow"]["init_system"] = node["platform"] == "ubuntu" ? "upstart" : "systemd"
-default["airflow"]["env_path"] = node["airflow"]["init_system"] == "upstart" ? "/etc/default/airflow" : "/etc/sysconfig/airflow"
+default["airflow"]["is_upstart"] = node["platform"] == "ubuntu" && node["platform_version"].to_f < 15.04
+default["airflow"]["init_system"] = node["airflow"]["is_upstart"] ? "upstart" : "systemd"
+default["airflow"]["env_path"] = node["platform_family"] == "debian" ? "/etc/default/airflow" : "/etc/sysconfig/airflow"
 
 
 # Python config
