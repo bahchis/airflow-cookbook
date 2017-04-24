@@ -12,6 +12,10 @@ CentOS (Tested on 7.2).
 
 The Airflow **all** and **oracle** packages are not supported, this is due the Oracle package having dependencies which cannot be automatically installed. I will look how to solve this and add support for those packages at later stage.
 
+## Contributing
+
+Please follow instructions in the [contributing doc](CONTRIBUTING.md).
+
 ## Usage
 
 - Use the relevant cookbooks to install and configure Airflow.
