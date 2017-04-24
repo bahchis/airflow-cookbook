@@ -5,7 +5,7 @@ Installs and configures Airflow workflow management platform. More information a
 
 ## Supported Platforms
 
-Ubuntu (Tested on 14.04).
+Ubuntu (Tested on 14.04, 16.04).
 CentOS (Tested on 7.2).
 
 ## Limitations
@@ -20,7 +20,12 @@ The Airflow **all** and **oracle** packages are not supported, this is due the O
 
 ## Recipes
 
-- default - Configures Airflow.
+- default - Executes other recipes.
+- directories - Creates required directories.
+- user - Creates OS user and group.
+- packages - Installs OS and pip packages.
+- config - Handles airflow.cfg
+- services - Creates services env file.
 - webserver - Configures service for webserver.
 - scheduler - Configures service for scheduler.
 - worker - Configures service for worker.
@@ -43,7 +48,14 @@ The Airflow **all** and **oracle** packages are not supported, this is due the O
 - ["airflow"]["config_file_mode"] - The permissions airflow.cfg is created.
 - ["airflow"]["bin_path"] - Path to the bin folder, default is based on platform.
 - ["airflow"]["run_path"] - Pid files base directory
-- ["airflow"]["init_system"] - The init system to use when configuring services, only upstart or systemd are supported and defaults based on platfrom.
+- ["airflow"]["is_upstart"] - Should upstart be used for services, determined automatiaclly.
+- ["airflow"]["init_system"] - The init system to use when configuring services, only upstart or systemd are supported and defaults based on ["airflow"]["is_upstart"] value.
+- ["airflow"]["env_path"] - The path to services env file, determined automatiaclly.
+
+##### Python config
+- ["airflow"]["python_runtime"] = Python runtime as used by [poise-python cookbook](https://github.com/poise/poise-python#quick-start). 
+- ["airflow"]["python_version"] = Python version to install as used by poise-python cookbook.
+- ["airflow"]["pip_version"] = Pip version to install (true - installs latest) as used by poise-python cookbook.
 
 ##### Package config
 - default['airflow']['packages'] - The Python packages to install for Airflow.
