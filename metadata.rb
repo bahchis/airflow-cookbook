@@ -1,4 +1,4 @@
-	# Copyright 2015 Sergey Bahchissaraitsev
+# Copyright 2015 Sergey Bahchissaraitsev
 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,14 +15,15 @@
 name             'airflow'
 maintainer       'Sergey Bahchissaraitsev'
 maintainer_email 'info@bahchis.com'
-license          'Apache 2.0'
+license          'Apache v2.0'
 description      'Installs and configures Airflow workflow management platform.'
 long_description 'Installs and configures Airflow workflow management platform. More information about Airflow can be found here: https://github.com/airbnb/airflow'
 source_url       'https://github.com/bahchis/airflow-cookbook'
 issues_url       'https://github.com/bahchis/airflow-cookbook/issues'
-version          '1.1.3'
+version          '1.2.0'
 supports         'ubuntu', '>= 14.04'
 supports         'centos', '>= 7.0'
+chef_version     '~>12.19'
 
 depends 'apt'
 depends 'poise-python'

@@ -1,5 +1,12 @@
 # Airflow cookbook changelog
 
+## 1.2.0
+
+ - Added ubuntu 16.04 support
+ - Packages version pinning
+ - Fixed python and pip installation
+ - Bug fixes
+
 ## 1.1.0
 
  - Added CentOS support
