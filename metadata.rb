@@ -15,7 +15,7 @@
 name             'airflow'
 maintainer       'Sergey Bahchissaraitsev'
 maintainer_email 'info@bahchis.com'
-license          'Apache 2.0'
+license          'Apache v2.0'
 description      'Installs and configures Airflow workflow management platform.'
 long_description 'Installs and configures Airflow workflow management platform. More information about Airflow can be found here: https://github.com/airbnb/airflow'
 source_url       'https://github.com/bahchis/airflow-cookbook'
