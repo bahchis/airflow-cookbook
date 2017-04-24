@@ -1,4 +1,4 @@
-	# Copyright 2015 Sergey Bahchissaraitsev
+# Copyright 2015 Sergey Bahchissaraitsev
 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ issues_url       'https://github.com/bahchis/airflow-cookbook/issues'
 version          '1.1.4'
 supports         'ubuntu', '>= 14.04'
 supports         'centos', '>= 7.0'
+chef_version     '~>12.19'
 
 depends 'apt'
 depends 'poise-python'
