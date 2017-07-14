@@ -23,7 +23,6 @@ issues_url       'https://github.com/bahchis/airflow-cookbook/issues'
 version          '1.2.0'
 supports         'ubuntu', '>= 14.04'
 supports         'centos', '>= 7.0'
-chef_version     '~>12.19'
 
 depends 'apt'
 depends 'poise-python'
