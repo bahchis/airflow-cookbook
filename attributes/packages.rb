@@ -27,7 +27,7 @@ default['airflow']['packages'] =
     #      { name: 'Sphinx-PyPI-upload', version: '>=0.2.1' }],
     #docker: [{ name: 'docker-py', version: '>=1.6.0' }],
     #druid: [{ name: 'druid', version: '>=0.2.1' }],
-    #emr: [{ name: 'boto3', version: '>=1.0.0' }],
+    emr: [{ name: 'boto3', version: '>=1.0.0' }],
     #gcp_api: [{ name: 'httplib2', version: '' },
     #          { name: 'google-api-python-client', version: '>=1.5.0, <1.6.0' },
     #          { name: 'oauth2client', version: '>=2.0.2, <2.1.0' },
