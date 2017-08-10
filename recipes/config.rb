@@ -18,7 +18,11 @@ template "#{node["airflow"]["config"]["core"]["airflow_home"]}/airflow.cfg" do
   owner node["airflow"]["user"]
   group node["airflow"]["group"]
   mode node["airflow"]["config_file_mode"]
-  variables({
-  	:config => node["airflow"]["config"]
-  })
+  variables(
+    lazy do
+      {
+        :config => node['airflow']['config']
+      }
+    end
+  )
 end
