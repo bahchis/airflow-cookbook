@@ -15,7 +15,7 @@
 python_runtime node["airflow"]["python_runtime"] do
   version node["airflow"]["python_version"]
   provider :system
-  pip_version node["airflow"]["pip_version"]  
+  pip_version node["airflow"]["pip_version"]
 end
 
 # Obtain the current platform name
@@ -64,7 +64,7 @@ dependencies_to_install.each do |value|
 end
 
 # Install Airflow
-python_package 'airflow' do
+python_package node['airflow']['airflow_package'] do
   version node['airflow']['version']
 end
 
