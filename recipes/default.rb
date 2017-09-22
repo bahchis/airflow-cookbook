@@ -12,9 +12,28 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include_recipe "apt::default"
-include_recipe "airflow::user"
-include_recipe "airflow::directories"
-include_recipe "airflow::packages"
-include_recipe "airflow::config"
-include_recipe "airflow::services"
+
+template "#{node["airflow"]["config"]["core"]["airflow_home"]}/airflow.cfg" do
+  source "airflow.cfg.erb"
+  owner node["airflow"]["user"]
+  group node["airflow"]["group"]
+  mode node["airflow"]["config_file_mode"]
+  variables({
+  	:config => node["airflow"]["config"]
+  })
+end
+
+
+template "airflow_services_env" do
+  source "init_system/airflow-env.erb"
+  path node["airflow"]["env_path"]
+  owner "root"
+  group "root"
+  mode "0644"
+  variables({
+    :is_upstart => node["airflow"]["is_upstart"],
+    :config => node["airflow"]["config"]
+  })
+end
+
+

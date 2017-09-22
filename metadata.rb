@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name             'airflow'
+name             'hops_airflow'
 maintainer       'Sergey Bahchissaraitsev'
 maintainer_email 'info@bahchis.com'
 license          'Apache v2.0'
@@ -27,3 +27,7 @@ chef_version     '~>12.1'
 
 depends 'apt'
 depends 'poise-python'
+
+recipe           "install", "Installs an Airflow Server"
+recipe           "default", "Configures an Airflow Server"
+recipe           "purge", "Removes and deletes an installed Airflow Server"

@@ -21,14 +21,19 @@ default["airflow"]["group_gid"] = 9999
 default["airflow"]["user_home_directory"] = "/home/#{node["airflow"]["user"]}"
 default["airflow"]["shell"] = "/bin/bash"
 
+default["airflow"]["dir"]                 = node.install.dir.empty? ? "/srv" : node.install.dir
+default["airflow"]["home"]                = node.airflow.dir + "/airflow-" + node.airflow.version
+default["airflow"]["base_dir"]            = node.airflow.dir + "/airflow" 
+
+
 # General config
 default["airflow"]["directories_mode"] = "0775"
 default["airflow"]["config_file_mode"] = "0644"
-default["airflow"]["bin_path"] = node["platform"] == "ubuntu" ? "/usr/local/bin" : "/usr/bin"
-default["airflow"]["run_path"] = "/var/run/airflow"
+default["airflow"]["bin_path"] = node["airflow"]["base_dir"] + "/bin"
+default["airflow"]["run_path"] = node["airflow"]["base_dir"] + "/run"
 default["airflow"]["is_upstart"] = node["platform"] == "ubuntu" && node["platform_version"].to_f < 15.04
 default["airflow"]["init_system"] = node["airflow"]["is_upstart"] ? "upstart" : "systemd"
-default["airflow"]["env_path"] = node["platform_family"] == "debian" ? "/etc/default/airflow" : "/etc/sysconfig/airflow"
+default["airflow"]["env_path"] = node["airflow"]["base_dir"] + "/etc"
 
 
 # Python config
