@@ -1,0 +1,7 @@
+dependencies: 
+  - recipe: airflow::install
+    global:  
+      - kagent::install
+  - recipe: airflow::default
+    global:  
+      - hops::nm
