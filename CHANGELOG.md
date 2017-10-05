@@ -1,5 +1,10 @@
 # Airflow cookbook changelog
 
+## 1.2.1
+
+ - Airflow package name support (default: apache-airflow)
+ - Lazy config loading
+
 ## 1.2.0
 
  - Added ubuntu 16.04 support
