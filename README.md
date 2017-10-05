@@ -39,7 +39,8 @@ Please follow instructions in the [contributing doc](CONTRIBUTING.md).
 
 ## Attributes
 ##### User config
-- ["airflow"]["version"] = The version of airflow to install, defaults to latest (nil).
+- ["airflow"]["airflow_package"] - Airflow package name, defaults to 'apache-airflow'. Use 'airflow' for installing version 1.8.0 or lower.
+- ["airflow"]["version"] - The version of airflow to install, defaults to latest (nil).
 - ["airflow"]["user"] - The user Airflow is executed with and owner of all related folders.
 - ["airflow"]["group"] - Airflow user group.
 - ["airflow"]["user_uid"] - Airflow user uid

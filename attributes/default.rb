@@ -13,7 +13,7 @@
 # limitations under the License.
 
 # User configuration
-default["airflow"]["airflow_package"] = 'airflow' # 'apache-airflow' for version >= 1.8.2
+default["airflow"]["airflow_package"] = 'apache-airflow' # use 'airflow' for version <= 1.8.0
 default["airflow"]["version"] = nil
 default["airflow"]["user"] = "airflow"
 default["airflow"]["group"] = "airflow"
