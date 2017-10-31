@@ -20,23 +20,22 @@ provisioner:
   name: chef_zero
 
 platforms:
-  - name: ubuntu-14.04
   - name: ubuntu-16.04
   - name: centos-7.2
 
 suites:
   - name: airflow
     run_list:
-      - recipe[airflow::default]
+      - recipe[hops_airflow::default]
     attributes:
 
   - name: airflow-webserver
     run_list:
-      - recipe[airflow::default]
-      - recipe[airflow::webserver]
+      - recipe[hops_airflow::default]
+      - recipe[hops_airflow::webserver]
     attributes:
   - name: airflow-scheduler
     run_list:
-      - recipe[airflow::default]
-      - recipe[airflow::scheduler]
+      - recipe[hops_airflow::default]
+      - recipe[hops_airflow::scheduler]
     attributes:

@@ -1,3 +1,4 @@
+# coding: utf-8
 # Copyright 2015 Sergey Bahchissaraitsev
 
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -37,3 +38,6 @@ template "airflow_services_env" do
 end
 
 
+
+# CREATE DATABASE airflow CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+# grant all on airflow.* TO ‘USERNAME'@'%' IDENTIFIED BY ‘{password}';
