@@ -17,4 +17,4 @@ source "https://supermarket.chef.io"
 metadata
 
 cookbook 'apt', '~> 2.8.2'
-cookbook 'poise-python', '~> 1.5.1'
+cookbook 'poise-python', '~> 1.6.0'
