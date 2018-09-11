@@ -23,12 +23,12 @@ default["airflow"]["user"] = "airflow"
 default["airflow"]["group"] = "airflow"
 default["airflow"]["user_uid"] = 9999
 default["airflow"]["group_gid"] = 9999
-default["airflow"]["user_home_directory"] = "/home/#{node["airflow"]["user"]}"
+default["airflow"]["user_home_directory"] = "/home/#{node['airflow']['user']}"
 default["airflow"]["shell"] = "/bin/bash"
 
-default["airflow"]["dir"]                 = node.install.dir.empty? ? "/srv" : node.install.dir
-default["airflow"]["home"]                = node.airflow.dir + "/airflow-" + node.airflow.version
-default["airflow"]["base_dir"]            = node.airflow.dir + "/airflow" 
+default["airflow"]["dir"]                 = node['install']['dir'].empty? ? "/srv" : node['install']['dir']
+default["airflow"]["home"]                = node['airflow']['dir'] + "/airflow-" + node['airflow']['version']
+default["airflow"]["base_dir"]            = node['airflow']['dir'] + "/airflow" 
 
 
 # General config
@@ -71,22 +71,15 @@ default["airflow"]["config"]["core"]["donot_pickle"]  = False
  
 # Where your Airflow plugins are stored
 default["airflow"]["config"]["core"]["plugins_folder"] = "#{node["airflow"]["config"]["core"]["airflow_home"]}/plugins"
-<<<<<<< HEAD
 
 default["airflow"]["config"]["core"]["fernet_key"] = cryptography_not_found_storing_passwords_in_plain_text
 #default["airflow"]["config"]["core"]["fernet_key"] = "G3jB5--jCQpRYp7hwUtpfQ_S8zLRbRMwX8tr3dehnNU=" # Be sure to change this for production
-=======
->>>>>>> 52a1b7422eb5d91808fd39c7f2e6afe35267b0c0
+
 # Celery
 default["airflow"]["config"]["celery"]["celeryd_concurrency"] = 16
 default["airflow"]["config"]["celery"]["broker_url"] = "rdis://#{node['host']}:6379/0"
 default["airflow"]["config"]["celery"]["celery_result_backend"] = "db+mysql://#{node['mysql']['user']}:#{node['mysql']['password']}@localhost:3306/airflow"
 
-<<<<<<< HEAD
-=======
-default["airflow"]["config"]["core"]["fernet_key"] = cryptography_not_found_storing_passwords_in_plain_text
-
->>>>>>> 52a1b7422eb5d91808fd39c7f2e6afe35267b0c0
 # MySQL
 # The SqlAlchemy connection string to the metadata database.
 default["airflow"]["config"]["core"]["sql_alchemy_conn"] = "mysql://#{node['mysql']['user']}:#{node['mysql']['password']}@localhost:3306/airflow"
@@ -142,16 +135,12 @@ default["airflow"]["config"]["webserver"]["web_server_worker_timeout"]  = 120
 default["airflow"]["config"]["webserver"]["expose_config"] = True
 default["airflow"]["config"]["webserver"]["filter_by_owner"] = True
 default["airflow"]["config"]["webserver"]["authenticate"] = True
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
+
 default["airflow"]["config"]["webserver"]["web_server_port"] = 8080
 default["airflow"]["config"]["webserver"]["auth_backend"] = airflow.contrib.auth.backends.password_auth
 #default["airflow"]["config"]["webserver"]["auth_backend"] = hops.airflow.auth.backends.hopsworks
 default["airflow"]["config"]["webserver"]["base_url"] = "http://#{node['fqdn']}:#{['airflow']['config']['webserver']['web_server_port']}"
 default["airflow"]["config"]["webserver"]["web_server_host"] = "0.0.0.0"
-=======
->>>>>>> 52a1b7422eb5d91808fd39c7f2e6afe35267b0c0
 default["airflow"]["config"]["webserver"]["auth_backend"] = hops.airflow.auth.backends.hopsworks
 
 # Secret key used to run your flask app
