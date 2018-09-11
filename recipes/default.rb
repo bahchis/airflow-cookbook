@@ -1,4 +1,6 @@
 # coding: utf-8
+
+# coding: utf-8
 # Copyright 2015 Sergey Bahchissaraitsev
 
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -38,6 +40,19 @@ template "airflow_services_env" do
 end
 
 
-
 # CREATE DATABASE airflow CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 # grant all on airflow.* TO ‘USERNAME'@'%' IDENTIFIED BY ‘{password}';
+
+exec = "#{node['ndb']['scripts_dir']}/mysql-client.sh"
+
+bash 'create_airflow_db' do
+  user "root"
+  code <<-EOF
+      set -e
+      #{exec} -e \"CREATE DATABASE IF NOT EXISTS airflow CHARACTER SET latin1\"
+      #{exec} -e \"GRANT ALL PRIVILEGES ON airflow.* TO '#{node[:mysql][:user]}'@'localhost' IDENTIFIED BY '#{node[:mysql][:password]}'\"
+#      #{exec} glassfish_timers < #{new_resource.tables_path}
+      airflow initdb
+    EOF
+  not_if "#{exec} -e 'show databases' | grep airflow"
+end

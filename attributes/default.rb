@@ -56,6 +56,7 @@ default["airflow"]["config"]["core"]["plugins_folder"] = "#{node["airflow"]["con
 # Celery
 default["airflow"]["config"]["celery"]["celeryd_concurrency"] = 16
 default["airflow"]["config"]["celery"]["broker_url"] = "rdis://#{node['host']}:6379/0"
+default["airflow"]["config"]["celery"]["celery_result_backend"] = "db+mysql://#{node['mysql']['user']}:#{node['mysql']['password']}@localhost:3306/airflow"
 
 # MySQL
 default["airflow"]["config"]["core"]["sql_alchemy_conn"] = "mysql://#{node['mysql']['user']}:#{node['mysql']['password']}@localhost:3306/airflow"
@@ -71,7 +72,8 @@ default["airflow"]["config"]["core"]["non_pooled_task_slot_count"] = 128
 default["airflow"]["config"]["core"]["max_active_runs_per_dag"] = 16
 # How long before timing out a python file import while filling the DagBag
 default["airflow"]["config"]["core"]["dagbag_import_timeout"] = 60
-default["airflow"]["config"]["core"]["security"] = 'hops'
+
+#default["airflow"]["config"]["core"]["security"] = 'hops'
 
 #default["airflow"]["config"]["core"][""] =
 
@@ -82,9 +84,10 @@ default["airflow"]["config"]["github_enterprise"]["api_rev"] = 'v3'
 default["airflow"]["config"]["webserver"]["expose_config"] = True
 default["airflow"]["config"]["webserver"]["filter_by_owner"] = True
 default["airflow"]["config"]["webserver"]["authenticate"] = True
-default["airflow"]["config"]["webserver"]["auth_backend"] = hops.airflow.auth.backends.hopsworks
 default["airflow"]["config"]["webserver"]["web_server_port"] = 8080
+default["airflow"]["config"]["webserver"]["auth_backend"] = airflow.contrib.auth.backends.password_auth
+#default["airflow"]["config"]["webserver"]["auth_backend"] = hops.airflow.auth.backends.hopsworks
 default["airflow"]["config"]["webserver"]["base_url"] = "http://#{node['fqdn']}:#{['airflow']['config']['webserver']['web_server_port']}"
-default["airflow"]["config"]["webserver"]["web_server_host"] = 0.0.0.0
-#default["airflow"]["config"]["webserver"][""] =
+default["airflow"]["config"]["webserver"]["web_server_host"] = "0.0.0.0"
 
+#default["airflow"]["config"]["webserver"][""] =
