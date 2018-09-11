@@ -32,3 +32,16 @@ depends 'kagent'
 recipe           "install", "Installs an Airflow Server"
 recipe           "default", "Configures an Airflow Server"
 recipe           "purge", "Removes and deletes an installed Airflow Server"
+
+attribute "hops_airflow/dir",
+          :description => "Installation directory for the airflow binaries/config files",
+          :type => 'string'
+
+attribute "hops_airflow/user",
+          :description => "Airflow username to run service as",
+          :type => 'string'
+
+attribute "hops_airflow/group",
+          :description => "Airflow group to run service as",
+          :type => 'string'
+
