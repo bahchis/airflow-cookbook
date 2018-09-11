@@ -16,10 +16,6 @@
 # limitations under the License.
 
 
-include_recipe "apt::default"
-
-
-
 template "airflow_services_env" do
   source "init_system/airflow-env.erb"
   path node["airflow"]["env_path"]
@@ -50,8 +46,5 @@ bash 'create_airflow_db' do
   not_if "#{exec} -e 'show databases' | grep airflow"
 end
 
-include_recipe "airflow::user"
-include_recipe "airflow::directories"
-include_recipe "airflow::packages"
 include_recipe "airflow::config"
 include_recipe "airflow::services"
