@@ -73,6 +73,11 @@ default["airflow"]["config"]["core"]["donot_pickle"]  = False
 default["airflow"]["config"]["core"]["plugins_folder"] = "#{node["airflow"]["config"]["core"]["airflow_home"]}/plugins"
 
 default["airflow"]["config"]["core"]["fernet_key"] = cryptography_not_found_storing_passwords_in_plain_text
+#default["airflow"]["config"]["core"]["fernet_key"] = "G3jB5--jCQpRYp7hwUtpfQ_S8zLRbRMwX8tr3dehnNU=" # Be sure to change this for production
+# Celery
+default["airflow"]["config"]["celery"]["celeryd_concurrency"] = 16
+default["airflow"]["config"]["celery"]["broker_url"] = "rdis://#{node['host']}:6379/0"
+default["airflow"]["config"]["celery"]["celery_result_backend"] = "db+mysql://#{node['mysql']['user']}:#{node['mysql']['password']}@localhost:3306/airflow"
 
 # MySQL
 # The SqlAlchemy connection string to the metadata database.
@@ -95,7 +100,8 @@ default["airflow"]["config"]["core"]["non_pooled_task_slot_count"] = 128
 default["airflow"]["config"]["core"]["max_active_runs_per_dag"] = 16
 # How long before timing out a python file import while filling the DagBag
 default["airflow"]["config"]["core"]["dagbag_import_timeout"] = 60
-default["airflow"]["config"]["core"]["security"] = 'hops'
+
+#default["airflow"]["config"]["core"]["security"] = 'hops'
 
 
 # The default owner assigned to each new operator, unless
@@ -196,14 +202,4 @@ default["airflow"]["config"]["scheduler"]["job_heartbeat_sec"]  = 5
 # This defines how many threads will run. However airflow will never
 # use more threads than the amount of cpu cores available.
 default["airflow"]["config"]["scheduler"]["max_threads"]  = 2
-
-
-
-
-
-
-
-
-
-
 
