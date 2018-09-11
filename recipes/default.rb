@@ -16,15 +16,8 @@
 # limitations under the License.
 
 
-template "#{node["airflow"]["config"]["core"]["airflow_home"]}/airflow.cfg" do
-  source "airflow.cfg.erb"
-  owner node["airflow"]["user"]
-  group node["airflow"]["group"]
-  mode node["airflow"]["config_file_mode"]
-  variables({
-  	:config => node["airflow"]["config"]
-  })
-end
+include_recipe "apt::default"
+
 
 
 template "airflow_services_env" do
@@ -56,3 +49,9 @@ bash 'create_airflow_db' do
     EOF
   not_if "#{exec} -e 'show databases' | grep airflow"
 end
+
+include_recipe "airflow::user"
+include_recipe "airflow::directories"
+include_recipe "airflow::packages"
+include_recipe "airflow::config"
+include_recipe "airflow::services"
