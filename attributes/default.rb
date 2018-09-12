@@ -27,7 +27,7 @@ default["airflow"]["user_home_directory"] = "/home/#{node['airflow']['user']}"
 default["airflow"]["shell"] = "/bin/bash"
 
 default["airflow"]["dir"]                 = node['install']['dir'].empty? ? "/srv" : node['install']['dir']
-default["airflow"]["home"]                = node['airflow']['dir'] + "/airflow-" + node['airflow']['version']
+default["airflow"]["home"]                = node['airflow']['dir'] + "/airflow-" +  node['airflow']['version'].empty? ? "latest" : node['airflow']['version']
 default["airflow"]["base_dir"]            = node['airflow']['dir'] + "/airflow" 
 
 
