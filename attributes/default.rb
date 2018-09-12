@@ -189,7 +189,6 @@ default["airflow"]["config"]["celery"]["worker_log_server_port"]  = 8793
 # a sqlalchemy database. Refer to the Celery documentation for more
 # information.
 default["airflow"]["config"]["celery"]["broker_url"]  = "amqp://guest:guest@127.0.0.1/"
-broker_url = amqp://guest:guest@127.0.0.1/
 # Another key Celery setting
 default["airflow"]["config"]["celery"]["celery_result_backend"]  = "db+mysql://airflow:airflow@localhost:3306/airflow"
 # Celery Flower is a sweet UI for Celery. Airflow has a shortcut to start
