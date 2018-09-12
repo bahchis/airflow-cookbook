@@ -47,3 +47,22 @@ end
 
 include_recipe "hops_airflow::config"
 include_recipe "hops_airflow::services"
+
+
+directory node['airflow']['base_dir'] + "/plugins"  do
+  owner node['airflow']['user']
+  group node['airflow']['group']
+  mode "770"
+  action :create
+end
+
+
+template "plugins/hopsworks_job_operator.py" do
+  source "hopsworks_job_operator.py.erb"
+  owner node['airflow']['user']
+  group node['airflow']['group']
+  mode "0644"
+  variables({
+    :config => node["airflow"]["config"]
+  })
+end
