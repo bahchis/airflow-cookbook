@@ -28,6 +28,7 @@ chef_version     '>=12.1'
 depends 'apt'
 depends 'poise-python'
 depends 'kagent'
+depends 'ndb'
 
 recipe           "install", "Installs an Airflow Server"
 recipe           "default", "Configures an Airflow Server"
