@@ -16,17 +16,6 @@
 # limitations under the License.
 
 
-template "airflow_services_env" do
-  source "init_system/airflow-env.erb"
-  path node["airflow"]["env_path"]
-  owner "root"
-  group "root"
-  mode "0644"
-  variables({
-    :is_upstart => node["airflow"]["is_upstart"],
-    :config => node["airflow"]["config"]
-  })
-end
 
 
 # CREATE DATABASE airflow CHARACTER SET utf8 COLLATE utf8_unicode_ci;
@@ -66,3 +55,20 @@ template "plugins/hopsworks_job_operator.py" do
     :config => node["airflow"]["config"]
   })
 end
+
+
+template "airflow_services_env" do
+  source "init_system/airflow-env.erb"
+  path node["airflow"]["env_path"]
+  owner "root"
+  group "root"
+  mode "0644"
+  variables({
+    :is_upstart => node["airflow"]["is_upstart"],
+    :config => node["airflow"]["config"]
+  })
+end
+
+
+include_recipe "hops_airflow::scheduler"
+include_recipe "hops_airflow::webserver"

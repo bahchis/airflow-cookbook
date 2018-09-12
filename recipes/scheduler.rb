@@ -40,3 +40,14 @@ end
 service "airflow-scheduler" do
   action [:enable]
 end
+
+if node['kagent']['enabled'] == "true"
+    kagent_config "airflow-scheduler" do
+      service "airflow"
+      log_file "#{node["airflow"]["config"]["core"]["base_log_folder"]}/airflow-scheduler.log"
+      config_file "#{node['airflow']['base_dir']}/airflow.cfg"
+      restart_agent false
+      action :add
+    end
+end
+
