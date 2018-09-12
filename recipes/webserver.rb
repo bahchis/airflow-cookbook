@@ -16,7 +16,7 @@ if (node["airflow"]["init_system"] == "upstart")
   service_target = "/etc/init/airflow-webserver.conf"
   service_template = "init_system/upstart/airflow-webserver.conf.erb"
 elsif (node["airflow"]["init_system"] == "systemd" && node["platform"] == "ubuntu" )
-  service_target = "/etc/systemd/system/airflow-webserver.service"
+  service_target = "/lib/systemd/system/airflow-webserver.service"
   service_template = "init_system/systemd/airflow-webserver.service.erb"
 else
   service_target = "/usr/lib/systemd/system/airflow-webserver.service"

@@ -16,9 +16,9 @@ if (node["airflow"]["init_system"] == "upstart")
   service_target = "/etc/init/airflow-kerberos.conf"
   service_template = "init_system/upstart/airflow-kerberos.conf.erb"
 elsif (node["airflow"]["init_system"] == "systemd" && node["platform"] == "ubuntu" )
-  service_target = "/etc/systemd/system/airflow-kerberos.service"
+  service_target = "/lib/systemd/system/airflow-kerberos.service"
   service_template = "init_system/systemd/airflow-kerberos.service.erb"
-else
+else # redhat/centos
   service_target = "/usr/lib/systemd/system/airflow-kerberos.service"
   service_template = "init_system/systemd/airflow-kerberos.service.erb"
 end

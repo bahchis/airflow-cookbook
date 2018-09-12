@@ -46,7 +46,7 @@ directory node['airflow']['base_dir'] + "/plugins"  do
 end
 
 
-template "plugins/hopsworks_job_operator.py" do
+template node['airflow']['base_dir'] + "/plugins/hopsworks_job_operator.py" do
   source "hopsworks_job_operator.py.erb"
   owner node['airflow']['user']
   group node['airflow']['group']
