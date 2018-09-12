@@ -1,7 +1,7 @@
 dependencies: 
-  - recipe: airflow::install
+  - recipe: hops_airflow::install
     global:  
       - kagent::install
-  - recipe: airflow::default
+  - recipe: hops_airflow::default
     global:  
-      - hops::nm
+      - ndb::mysqld
