@@ -73,6 +73,9 @@ bash 'install_airflow' do
   code <<-EOF
       set -e
       export AIRFLOW_GPL_UNIDECODE=1
+      export AIRFLOW_HOME=#{node['airflow']['base_dir']}
+      pip install werkzeug
+      pip install markdown
       pip install --no-cache-dir apache-airflow==#{node['airflow']['version']}
     EOF
 end
