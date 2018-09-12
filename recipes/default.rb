@@ -40,7 +40,6 @@ bash 'create_airflow_db' do
       set -e
       #{exec} -e \"CREATE DATABASE IF NOT EXISTS airflow CHARACTER SET latin1\"
       #{exec} -e \"GRANT ALL PRIVILEGES ON airflow.* TO '#{node[:mysql][:user]}'@'localhost' IDENTIFIED BY '#{node[:mysql][:password]}'\"
-#      #{exec} glassfish_timers < #{new_resource.tables_path}
       airflow initdb
     EOF
   not_if "#{exec} -e 'show databases' | grep airflow"
