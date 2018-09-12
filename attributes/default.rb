@@ -72,8 +72,8 @@ default["airflow"]["config"]["core"]["donot_pickle"]  = False
 # Where your Airflow plugins are stored
 default["airflow"]["config"]["core"]["plugins_folder"] = "#{node["airflow"]["config"]["core"]["airflow_home"]}/plugins"
 
-default["airflow"]["config"]["core"]["fernet_key"] = cryptography_not_found_storing_passwords_in_plain_text
-#default["airflow"]["config"]["core"]["fernet_key"] = "G3jB5--jCQpRYp7hwUtpfQ_S8zLRbRMwX8tr3dehnNU=" # Be sure to change this for production
+#default["airflow"]["config"]["core"]["fernet_key"] = cryptography_not_found_storing_passwords_in_plain_text
+default["airflow"]["config"]["core"]["fernet_key"] = "G3jB5--jCQpRYp7hwUtpfQ_S8zLRbRMwX8tr3dehnNU=" # Be sure to change this for production
 
 # Celery
 default["airflow"]["config"]["celery"]["celeryd_concurrency"] = 16
