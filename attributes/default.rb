@@ -18,7 +18,7 @@ include_attribute "ndb"
 
 # User configuration
 default["airflow"]["airflow_package"] = 'apache-airflow' # use 'airflow' for version <= 1.8.0
-default["airflow"]["version"] = nil
+default["airflow"]["version"] = "1.10.0"
 default["airflow"]["user"] = "airflow"
 default["airflow"]["group"] = "airflow"
 default["airflow"]["user_uid"] = 9999
@@ -27,7 +27,7 @@ default["airflow"]["user_home_directory"] = "/home/#{node['airflow']['user']}"
 default["airflow"]["shell"] = "/bin/bash"
 
 default["airflow"]["dir"]                 = node['install']['dir'].empty? ? "/srv" : node['install']['dir']
-default["airflow"]["home"]                = node['airflow']['dir'] + "/airflow-" +  node['airflow']['version'].empty? ? "latest" : node['airflow']['version']
+default["airflow"]["home"]                = node['airflow']['dir'] + "/airflow-" +  node['airflow']['version']
 default["airflow"]["base_dir"]            = node['airflow']['dir'] + "/airflow" 
 
 
