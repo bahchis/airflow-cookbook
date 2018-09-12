@@ -137,7 +137,7 @@ default["airflow"]["config"]["webserver"]["filter_by_owner"] = true
 default["airflow"]["config"]["webserver"]["authenticate"] = true
 
 default["airflow"]["config"]["webserver"]["web_server_port"] = 8080
-default["airflow"]["config"]["webserver"]["auth_backend"] = airflow.contrib.auth.backends.password_auth
+default["airflow"]["config"]["webserver"]["auth_backend"] = "airflow.contrib.auth.backends.password_auth"
 #default["airflow"]["config"]["webserver"]["auth_backend"] = hops.airflow.auth.backends.hopsworks
 
 # Secret key used to run your flask app
