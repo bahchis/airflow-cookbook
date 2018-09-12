@@ -29,7 +29,6 @@ bash 'create_airflow_db' do
       set -e
       #{exec} -e \"CREATE DATABASE IF NOT EXISTS airflow CHARACTER SET latin1\"
       #{exec} -e \"GRANT ALL PRIVILEGES ON airflow.* TO '#{node[:mysql][:user]}'@'localhost' IDENTIFIED BY '#{node[:mysql][:password]}'\"
-      airflow initdb
     EOF
   not_if "#{exec} -e 'show databases' | grep airflow"
 end
@@ -70,5 +69,16 @@ template "airflow_services_env" do
 end
 
 
-include_recipe "hops_airflow::scheduler"
+bash 'init_airflow_db' do
+  user node['airflow']['user']
+  code <<-EOF
+      set -e
+      export AIRFLOW_HOME=#{node['airflow']['base_dir']}
+      airflow initdb
+    EOF
+end
+
+
 include_recipe "hops_airflow::webserver"
+include_recipe "hops_airflow::scheduler"
+include_recipe "hops_airflow::worker"
