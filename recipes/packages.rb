@@ -64,9 +64,19 @@ dependencies_to_install.each do |value|
 end
 
 # Install Airflow
-python_package node['airflow']['airflow_package'] do
-  version node['airflow']['version']
+#python_package node['airflow']['airflow_package'] do
+#  version node
+#end
+
+bash 'install_airflow' do
+  user "root"
+  code <<-EOF
+      set -e
+      export AIRFLOW_GPL_UNIDECODE=1
+      pip install --no-cache-dir apache-airflow==#{node['airflow']['version']}
+    EOF
 end
+
 
 # Install Airflow packages
 node['airflow']['packages'].each do |_key, value|

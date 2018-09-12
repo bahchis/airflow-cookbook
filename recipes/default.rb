@@ -46,5 +46,5 @@ bash 'create_airflow_db' do
   not_if "#{exec} -e 'show databases' | grep airflow"
 end
 
-include_recipe "airflow::config"
-include_recipe "airflow::services"
+include_recipe "hops_airflow::config"
+include_recipe "hops_airflow::services"

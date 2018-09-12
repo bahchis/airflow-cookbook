@@ -1,7 +1,7 @@
 include_recipe "apt::default"
 
-include_recipe "airflow::user"
-include_recipe "airflow::directories"
-include_recipe "airflow::packages"
+include_recipe "hops_airflow::user"
+include_recipe "hops_airflow::directories"
+include_recipe "hops_airflow::packages"
 
 
