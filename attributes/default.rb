@@ -126,7 +126,7 @@ default["airflow"]["config"]["celery"]["broker_url"] = "rdis://#{node['host']}:6
 # cname you are using. This is used in automated emails that
 # airflow sends to point links to the right web server
 default["airflow"]["config"]["webserver"]["web_server_worker_timeout"]  = 120
-default["airflow"]["config"]["webserver"]["web_server_port"] = 8080
+default["airflow"]["config"]["webserver"]["web_server_port"] = 12358
 default["airflow"]["config"]["webserver"]["base_url"] = "http://#{node['fqdn']}:" + node['airflow']['config']['webserver']['web_server_port'].to_s
 default["airflow"]["config"]["webserver"]["web_server_host"] = '0.0.0.0'
 # The port on which to run the web server
