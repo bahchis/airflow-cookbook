@@ -63,11 +63,11 @@ default["airflow"]["config"]["core"]["base_log_folder"]  = node["airflow"]["base
 # remote_base_log_folder =
 # remote_log_conn_id =
 # Use server-side encryption for logs stored in S3
-# encrypt_s3_logs = False
+# encrypt_s3_logs = false
 
 
 # Whether to disable pickling dags
-default["airflow"]["config"]["core"]["donot_pickle"]  = False
+default["airflow"]["config"]["core"]["donot_pickle"]  = false
  
 # Where your Airflow plugins are stored
 default["airflow"]["config"]["core"]["plugins_folder"] = "#{node["airflow"]["config"]["core"]["airflow_home"]}/plugins"
@@ -95,7 +95,7 @@ default["airflow"]["config"]["core"]["sql_alchemy_pool_recycle"] = 3600
 default["airflow"]["config"]["core"]["parallelism"] = 32
 # The number of task instances allowed to run concurrently by the scheduler
 default["airflow"]["config"]["core"]["dag_concurrency"] = 16
-default["airflow"]["config"]["core"]["dags_are_paused_at_creation"] = True
+default["airflow"]["config"]["core"]["dags_are_paused_at_creation"] = true
 # When not using pools, tasks are run in the "default pool", whose size is guided by this config element
 default["airflow"]["config"]["core"]["non_pooled_task_slot_count"] = 128
 default["airflow"]["config"]["core"]["max_active_runs_per_dag"] = 16
@@ -110,7 +110,7 @@ default["airflow"]["config"]["core"]["dagbag_import_timeout"] = 60
 default["airflow"]["config"]["operators"]["default_owner"]  = "Airflow"
 
 
-default["airflow"]["config"]["admin"]["hide_sensitive_variable_fields"] = True
+default["airflow"]["config"]["admin"]["hide_sensitive_variable_fields"] = true
 default["airflow"]["config"]["github_enterprise"]["api_rev"] = 'v3'
 
 # The executor class that airflow should use. Choices include
@@ -132,9 +132,9 @@ default["airflow"]["config"]["webserver"]["web_server_port"] = 8080
 # The time the gunicorn webserver waits before timing out on a worker
 default["airflow"]["config"]["webserver"]["web_server_worker_timeout"]  = 120
 
-default["airflow"]["config"]["webserver"]["expose_config"] = True
-default["airflow"]["config"]["webserver"]["filter_by_owner"] = True
-default["airflow"]["config"]["webserver"]["authenticate"] = True
+default["airflow"]["config"]["webserver"]["expose_config"] = true
+default["airflow"]["config"]["webserver"]["filter_by_owner"] = true
+default["airflow"]["config"]["webserver"]["authenticate"] = true
 
 default["airflow"]["config"]["webserver"]["web_server_port"] = 8080
 default["airflow"]["config"]["webserver"]["auth_backend"] = airflow.contrib.auth.backends.password_auth
@@ -162,8 +162,8 @@ default["airflow"]["config"]["email"]["email_backend"]  = "airflow.utils.email.s
 # server here
 #
 default["airflow"]["config"]["smtp"]["smtp_host"]  = "localhost"
-default["airflow"]["config"]["smtp"]["smtp_starttls"]  = True
-default["airflow"]["config"]["smtp"]["smtp_ssl"]  = False
+default["airflow"]["config"]["smtp"]["smtp_starttls"]  = true
+default["airflow"]["config"]["smtp"]["smtp_ssl"]  = false
 default["airflow"]["config"]["smtp"]["smtp_user"]  = "admin@kth.se"
 default["airflow"]["config"]["smtp"]["smtp_port"]  = 25
 default["airflow"]["config"]["smtp"]["smtp_password"]  = "admin"
