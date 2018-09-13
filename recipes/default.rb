@@ -72,9 +72,10 @@ end
 bash 'mysql_hack_fix' do
   user 'root'
   code <<-EOF
-    mkdir /var/run/mysqld
+    mkdir -p /var/run/mysqld
     ln -s /tmp/mysql.sock /var/run/mysqld/mysqld.sock
   EOF
+  not_if "test -e /var/run/mysqld/mysqld.sock"
 end
 
 bash 'init_airflow_db' do
@@ -89,4 +90,4 @@ end
 
 include_recipe "hops_airflow::webserver"
 include_recipe "hops_airflow::scheduler"
-include_recipe "hops_airflow::worker"
+

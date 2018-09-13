@@ -5,3 +5,9 @@ dependencies:
   - recipe: hops_airflow::default
     global:  
       - ndb::mysqld
+  - recipe: hops_airflow::kerberos
+    global:  
+      - hops_airflow::default
+  - recipe: hops_airflow::worker
+    global:  
+      - hops_airflow::default
