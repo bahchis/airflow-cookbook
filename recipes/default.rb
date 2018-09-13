@@ -91,3 +91,9 @@ end
 include_recipe "hops_airflow::webserver"
 include_recipe "hops_airflow::scheduler"
 
+template node['airflow']['base_dir'] + "/create-default-user.sh" do
+  source "create-default-user.sh.erb"
+  owner node['airflow']['user']
+  group node['airflow']['group']
+  mode "0774"
+end
