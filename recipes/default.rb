@@ -59,7 +59,7 @@ end
 template "airflow_services_env" do
   source "init_system/airflow-env.erb"
   path node["airflow"]["env_path"]
-  owner "root"
+  owner node['airflow']['user']
   group "root"
   mode "0644"
   variables({
@@ -68,6 +68,14 @@ template "airflow_services_env" do
   })
 end
 
+
+bash 'mysql_hack_fix' do
+  user 'root'
+  code <<-EOF
+    mkdir /var/run/mysqld
+    ln -s /tmp/mysql.sock /var/run/mysqld/mysqld.sock
+  EOF
+end
 
 bash 'init_airflow_db' do
   user node['airflow']['user']

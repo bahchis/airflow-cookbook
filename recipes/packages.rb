@@ -78,9 +78,9 @@ bash 'install_airflow' do
       pip install werkzeug
       pip install markdown
       pip install --no-cache-dir apache-airflow==#{node['airflow']['version']}
-      pip install --no-cache-dir apache-airflow['kubernetes']==#{node['airflow']['version']}
-      pip install --no-cache-dir apache-airflow['mysql']==#{node['airflow']['version']}
       pip install --no-cache-dir apache-airflow['hive']==#{node['airflow']['version']}
+      pip install --no-cache-dir apache-airflow['mysql']==#{node['airflow']['version']}
+      pip install --no-cache-dir apache-airflow['kubernetes']==#{node['airflow']['version']}
     EOF
 end
 
