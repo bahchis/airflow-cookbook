@@ -68,15 +68,20 @@ end
 #  version node
 #end
 
+libs=%w{ futures werkzeug markdown }
+
+for lib in libs
+  python_package lib do
+    action :install
+  end
+end
+
 bash 'install_airflow' do
   user "root"
   code <<-EOF
       set -e
       export AIRFLOW_GPL_UNIDECODE=1
       export AIRFLOW_HOME=#{node['airflow']['base_dir']}
-      pip install futures
-      pip install werkzeug
-      pip install markdown
       pip install --no-cache-dir apache-airflow==#{node['airflow']['version']}
       pip install --no-cache-dir apache-airflow['hive']==#{node['airflow']['version']}
       pip install --no-cache-dir apache-airflow['mysql']==#{node['airflow']['version']}
