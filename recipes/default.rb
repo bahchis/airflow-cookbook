@@ -82,6 +82,9 @@ bash 'init_airflow_db' do
   user node['airflow']['user']
   code <<-EOF
       set -e
+      yes | pip install futures
+      yes | pip install markdown
+      yes | pip install werkzeug
       export AIRFLOW_HOME=#{node['airflow']['base_dir']}
       airflow initdb
     EOF
