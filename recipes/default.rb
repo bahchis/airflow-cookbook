@@ -78,13 +78,21 @@ bash 'mysql_hack_fix' do
   not_if "test -e /var/run/mysqld/mysqld.sock"
 end
 
+bash 'pre_init_airflow_db' do
+  user 'root'
+  code <<-EOF
+      yes | pip install futures
+      yes | pip install markdown
+      yes | pip install werkzeug
+    EOF
+end
+
+
+
 bash 'init_airflow_db' do
   user node['airflow']['user']
   code <<-EOF
       set -e
-      yes | pip install futures
-      yes | pip install markdown
-      yes | pip install werkzeug
       export AIRFLOW_HOME=#{node['airflow']['base_dir']}
       airflow initdb
     EOF
