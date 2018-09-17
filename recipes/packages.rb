@@ -68,13 +68,12 @@ end
 #  version node
 #end
 
-libs=%w{ futures werkzeug markdown }
-
-for lib in libs
-  python_package lib do
-    action :install
-  end
-end
+#libs=%w{ futures werkzeug markdown }
+#for lib in libs
+#  python_package lib do
+#    action :install
+#  end
+#end
 
 bash 'install_airflow' do
   user "root"
@@ -82,10 +81,13 @@ bash 'install_airflow' do
       set -e
       export AIRFLOW_GPL_UNIDECODE=1
       export AIRFLOW_HOME=#{node['airflow']['base_dir']}
-      pip install --no-cache-dir apache-airflow==#{node['airflow']['version']}
-      pip install --no-cache-dir apache-airflow['hive']==#{node['airflow']['version']}
-      pip install --no-cache-dir apache-airflow['mysql']==#{node['airflow']['version']}
-      pip install --no-cache-dir apache-airflow['kubernetes']==#{node['airflow']['version']}
+      yes | pip install --no-cache-dir apache-airflow==#{node['airflow']['version']}
+      yes | pip install --no-cache-dir apache-airflow['hive']==#{node['airflow']['version']}
+      yes | pip install --no-cache-dir apache-airflow['mysql']==#{node['airflow']['version']}
+      yes | pip install --no-cache-dir apache-airflow['kubernetes']==#{node['airflow']['version']}
+      yes | pip install --no-cache-dir werkzeug
+      yes | pip install --no-cache-dir markdown
+      yes | pip install --no-cache-dir futures
     EOF
 end
 
