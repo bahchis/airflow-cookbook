@@ -46,3 +46,7 @@ attribute "hops_airflow/group",
           :description => "Airflow group to run service as",
           :type => 'string'
 
+attribute "hops_airflow/operators",
+          :description => "Comma-separated list of airflow operators to install by default. E.g., 'hdfs, hive, mysql, password'",
+          :type => 'string'
+

@@ -17,10 +17,13 @@ include_attribute "ndb"
 
 
 # User configuration
-default["airflow"]["airflow_package"] = 'apache-airflow' # use 'airflow' for version <= 1.8.0
+default["airflow"]["airflow_package"] = 'apache-airflow' 
 default["airflow"]["version"]         = "1.10.0"
 default['airflow']['user']            = node['install']['user'].empty? ? "airflow" : node['install']['user']
 default['airflow']['group']           = node['install']['user'].empty? ? "airflow" : node['install']['user']
+
+
+default["airflow"]["operators"]       = "hive,mysql,kubernetes,password,hdfs,slack,ssh"
 
 default["airflow"]["user_uid"] = 9999
 default["airflow"]["group_gid"] = 9999

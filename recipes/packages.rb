@@ -64,9 +64,6 @@ dependencies_to_install.each do |value|
 end
 
 # Install Airflow
-#python_package node['airflow']['airflow_package'] do
-#  version node
-#end
 
 bash 'install_airflow' do
   user "root"
@@ -75,11 +72,20 @@ bash 'install_airflow' do
       export AIRFLOW_GPL_UNIDECODE=1
       export AIRFLOW_HOME=#{node['airflow']['base_dir']}
       yes | pip install --no-cache-dir apache-airflow==#{node['airflow']['version']}
-      yes | pip install --no-cache-dir apache-airflow['hive']==#{node['airflow']['version']}
-      yes | pip install --no-cache-dir apache-airflow['mysql']==#{node['airflow']['version']}
-      yes | pip install --no-cache-dir apache-airflow['kubernetes']==#{node['airflow']['version']}
-      yes | pip install --no-cache-dir apache-airflow['password']==#{node['airflow']['version']}
     EOF
+end
+
+
+for operator in node['airflow']['operators'].split(",")
+  bash 'install_airflow_#{operator}' do
+    user "root"
+    code <<-EOF
+      set -e
+      export AIRFLOW_GPL_UNIDECODE=1
+      export AIRFLOW_HOME=#{node['airflow']['base_dir']}
+      yes | pip install --no-cache-dir apache-airflow["#{operator}"]==#{node['airflow']['version']}
+    EOF
+  end
 end
 
 # Install Airflow packages
