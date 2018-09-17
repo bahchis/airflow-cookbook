@@ -78,27 +78,11 @@ bash 'mysql_hack_fix' do
   not_if "test -e /var/run/mysqld/mysqld.sock"
 end
 
-bash 'pre_init_airflow_db' do
-  user 'root'
-  code <<-EOF
-      yes | pip install futures
-      yes | pip install markdown
-      yes | pip install werkzeug
-      mkdir -p /home/#{node['airflow']['user']}/.local
-      mkdir -p /home/#{node['airflow']['user']}/.cache
-      chown -R #{node['airflow']['user']} /home/#{node['airflow']['user']}/.local
-      chown -R #{node['airflow']['user']} /home/#{node['airflow']['user']}/.cache
-    EOF
-end
-
 
 bash 'init_airflow_db' do
   user node['airflow']['user']
   code <<-EOF
       set -e
-      yes | pip install --no-cache-dir --user futures
-      yes | pip install --no-cache-dir --user markdown
-      yes | pip install --no-cache-dir --user werkzeug
       export AIRFLOW_HOME=#{node['airflow']['base_dir']}
       airflow initdb
     EOF

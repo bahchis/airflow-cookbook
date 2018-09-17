@@ -68,13 +68,6 @@ end
 #  version node
 #end
 
-#libs=%w{ futures werkzeug markdown }
-#for lib in libs
-#  python_package lib do
-#    action :install
-#  end
-#end
-
 bash 'install_airflow' do
   user "root"
   code <<-EOF
@@ -85,12 +78,9 @@ bash 'install_airflow' do
       yes | pip install --no-cache-dir apache-airflow['hive']==#{node['airflow']['version']}
       yes | pip install --no-cache-dir apache-airflow['mysql']==#{node['airflow']['version']}
       yes | pip install --no-cache-dir apache-airflow['kubernetes']==#{node['airflow']['version']}
-      yes | pip install --no-cache-dir werkzeug
-      yes | pip install --no-cache-dir markdown
-      yes | pip install --no-cache-dir futures
+      yes | pip install --no-cache-dir apache-airflow['password']==#{node['airflow']['version']}
     EOF
 end
-
 
 # Install Airflow packages
 node['airflow']['packages'].each do |_key, value|
