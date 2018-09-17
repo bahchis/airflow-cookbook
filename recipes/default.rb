@@ -84,15 +84,18 @@ bash 'pre_init_airflow_db' do
       yes | pip install futures
       yes | pip install markdown
       yes | pip install werkzeug
+      chown -R #{node['airflow']['user']} /home/#{node['airflow']['user']}/.local
     EOF
 end
-
 
 
 bash 'init_airflow_db' do
   user node['airflow']['user']
   code <<-EOF
       set -e
+      yes | pip install --user futures
+      yes | pip install --user markdown
+      yes | pip install --user werkzeug
       export AIRFLOW_HOME=#{node['airflow']['base_dir']}
       airflow initdb
     EOF
