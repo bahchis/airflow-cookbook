@@ -15,6 +15,7 @@
 if (node["airflow"]["init_system"] == "upstart") 
   service_target = "/etc/init/airflow-scheduler.conf"
   service_template = "init_system/upstart/airflow-scheduler.conf.erb"
+
 elsif (node["airflow"]["init_system"] == "systemd" && node["platform"] == "ubuntu" )
   service_target = "/lib/systemd/system/airflow-scheduler.service"
   service_template = "init_system/systemd/airflow-scheduler.service.erb"
@@ -38,7 +39,7 @@ template service_target do
 end
 
 service "airflow-scheduler" do
-  action [:enable]
+  action [:enable, :start]
 end
 
 if node['kagent']['enabled'] == "true"

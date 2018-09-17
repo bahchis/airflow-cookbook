@@ -38,7 +38,7 @@ template service_target do
 end
 
 service "airflow-webserver" do
-  action [:enable]
+  action [:enable, :start]
 end
 
 if node['kagent']['enabled'] == "true"
