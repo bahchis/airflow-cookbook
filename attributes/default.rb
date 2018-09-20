@@ -23,7 +23,7 @@ default['airflow']['user']            = node['install']['user'].empty? ? "airflo
 default['airflow']['group']           = node['install']['user'].empty? ? "airflow" : node['install']['user']
 
 
-default["airflow"]["operators"]       = "hive,mysql,kubernetes,password,hdfs,slack,ssh"
+default["airflow"]["operators"]       = "hive,mysql,kubernetes,password,hdfs,slack,ssh,crypto,jdbc,mysql,devel_hadoop"
 
 default["airflow"]["user_uid"] = 9999
 default["airflow"]["group_gid"] = 9999
@@ -131,12 +131,12 @@ default["airflow"]["config"]["webserver"]["web_server_host"] = '0.0.0.0'
 # The port on which to run the web server
 # The time the gunicorn webserver waits before timing out on a worker
 
-default["airflow"]["config"]["webserver"]["expose_config"] = true
+default["airflow"]["config"]["webserver"]["expose_config"] = false
 default["airflow"]["config"]["webserver"]["filter_by_owner"] = true
 default["airflow"]["config"]["webserver"]["authenticate"] = true
 
 default["airflow"]["config"]["webserver"]["auth_backend"] = "airflow.contrib.auth.backends.password_auth"
-#default["airflow"]["config"]["webserver"]["auth_backend"] = hops.airflow.auth.backends.hopsworks
+#default["airflow"]["config"]["webserver"]["auth_backend"] = hops.airflow.auth.backends.hopsworks_auth
 
 # Secret key used to run your flask app
 default["airflow"]["config"]["webserver"]["secret_key"]  = "temporary_key"
@@ -181,6 +181,12 @@ default["airflow"]["config"]["celery"]["flower_port"]  = 5555
 default["airflow"]["config"]["celery"]["default_queue"]  = "default"
 
 #
+# Reverse Http Proxy
+# 
+default['airflow']['config']['celery']['flower_url_prefix'] = "http://localhost/hopsworks-api/flower"
+default['airflow']['config']['base_url'] = "http://localhost/hopsworks-api/airflow"
+
+#
 # Scheduler
 #
 # Task instances listen for external kill signal (when you clear tasks
@@ -188,6 +194,7 @@ default["airflow"]["config"]["celery"]["default_queue"]  = "default"
 # listen (in seconds).
 default["airflow"]["config"]["scheduler"]["job_heartbeat_sec"]  = 5
 # The scheduler can run multiple threads in parallel to schedule dags.
-# This defines how many threads will run. However airflow will never
+# Tthis defines how many threads will run. However airflow will never
 # use more threads than the amount of cpu cores available.
 default["airflow"]["config"]["scheduler"]["max_threads"]  = 2
+
