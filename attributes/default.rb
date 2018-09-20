@@ -184,7 +184,7 @@ default["airflow"]["config"]["celery"]["default_queue"]  = "default"
 # Reverse Http Proxy
 # 
 default['airflow']['config']['celery']['flower_url_prefix'] = "http://localhost/hopsworks-api/flower"
-default['airflow']['config']['base_url'] = "http://localhost/hopsworks-api/airflow"
+default['airflow']['config']['webserver']['base_url'] = "http://localhost/hopsworks-api/airflow"
 
 #
 # Scheduler
