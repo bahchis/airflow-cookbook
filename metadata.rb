@@ -29,6 +29,7 @@ depends 'apt'
 depends 'poise-python'
 depends 'kagent'
 depends 'ndb'
+depends 'java'
 
 recipe           "default", "Configures an Airflow Server"
 recipe           "install", "Installs an Airflow Server"
