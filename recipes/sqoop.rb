@@ -30,6 +30,12 @@ group node['hops']['group'] do
   append true
 end
 
+group node['sqoop']['group'] do
+  action :modify
+  members ["#{node['airflow']['user']}"]
+  append true
+end
+
 
 package_url = "#{node['sqoop']['url']}"
 base_package_filename = File.basename(package_url)
