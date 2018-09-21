@@ -14,6 +14,7 @@
 
 include_attribute "kagent"
 include_attribute "ndb"
+include_attribute "hops"
 
 
 # User configuration
