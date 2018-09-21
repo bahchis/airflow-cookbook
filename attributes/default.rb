@@ -22,6 +22,18 @@ default["airflow"]["version"]         = "1.10.0"
 default['airflow']['user']            = node['install']['user'].empty? ? "airflow" : node['install']['user']
 default['airflow']['group']           = node['install']['user'].empty? ? "airflow" : node['install']['user']
 
+# Sqoop setup
+default["sqoop"]["version"]           = "1.4.7"
+default['sqoop']['user']              = node['install']['user'].empty? ? "sqoop" : node['install']['user']
+default['sqoop']['group']             = node['install']['user'].empty? ? "sqoop" : node['install']['user']
+default["sqoop"]["dir"]               = node['install']['dir'].empty? ? "/srv/hops" : node['install']['dir']
+default["sqoop"]["home"]              = node['sqoop']['dir'] + "/sqoop-" +  node['sqoop']['version'] + ".bin__hadoop-2.6.0"
+default["sqoop"]["base_dir"]          = node['sqoop']['dir'] + "/sqoop" 
+# sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz
+default['sqoop']['url']               = "#{node['download_url']}/sqoop-#{node['sqoop']['version']}.bin__hadoop-2.6.0.tar.gz"
+default["sqoop"]["port"]              = "16000"
+
+
 
 default["airflow"]["operators"]       = "hive,mysql,kubernetes,password,hdfs,slack,ssh,crypto,jdbc,mysql,devel_hadoop"
 
@@ -30,7 +42,7 @@ default["airflow"]["group_gid"] = 9999
 default["airflow"]["user_home_directory"] = "/home/#{node['airflow']['user']}"
 default["airflow"]["shell"] = "/bin/bash"
 
-default["airflow"]["dir"]                 = node['install']['dir'].empty? ? "/srv" : node['install']['dir']
+default["airflow"]["dir"]                 = node['install']['dir'].empty? ? "/srv/hops" : node['install']['dir']
 default["airflow"]["home"]                = node['airflow']['dir'] + "/airflow-" +  node['airflow']['version']
 default["airflow"]["base_dir"]            = node['airflow']['dir'] + "/airflow" 
 

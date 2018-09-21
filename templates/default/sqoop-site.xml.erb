@@ -1,0 +1,31 @@
+<configuration>  
+  <property>  
+    <name>sqoop.metastore.client.enable.autoconnect</name>  
+    <value>true</value>  
+  </property>  
+  <property>  
+    <name>sqoop.metastore.client.autoconnect.url</name>  
+    <value>jdbc:mysql://localhost/sqoop</value>  
+  </property>  
+  <property>  
+    <name>sqoop.metastore.client.autoconnect.username</name>  
+    <value><%= node['mysql']['user'] %></value>  
+  </property>  
+  <property>  
+    <name>sqoop.metastore.client.autoconnect.password</name>  
+    <value><%= node['mysql']['password'] %></value>  
+  </property>  
+  <property>  
+    <name>sqoop.metastore.client.record.password</name>  
+    <value>true</value>  
+  </property>  
+  <property>  
+    <name>sqoop.metastore.server.location</name>  
+    <value><%= node['sqoop']['base_dir'] %>/metastore/</value>  
+  </property>  
+  <property>  
+    <name>sqoop.metastore.server.port</name>  
+    <value><%= node['sqoop']['port'] %>/metastore/</value>  
+  </property>  
+</configuration>
+

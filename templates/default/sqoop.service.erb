@@ -1,0 +1,17 @@
+[Unit]
+Description = Sqoop server
+After = syslog.target network.target remote-fs.target
+
+[Service]
+Restart=always
+RestartSec=3
+User = <%= node['sqoop']['user'] %>
+PIDFile = <%= node['sqoop']['base_dir'] %>/sqoop.pid
+ExecStart = <%= node['sqoop']['base_dir'] %>/bin/start-metastore.sh
+ExecStop = <%= node['sqoop']['base_dir'] %>/bin/stop-metastore.sh
+LimitNOFILE = 30000
+
+Type = forking
+
+[Install]
+WantedBy = multi-user.target

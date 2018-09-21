@@ -30,8 +30,9 @@ depends 'poise-python'
 depends 'kagent'
 depends 'ndb'
 
-recipe           "install", "Installs an Airflow Server"
 recipe           "default", "Configures an Airflow Server"
+recipe           "install", "Installs an Airflow Server"
+recipe           "sqoop", "Installs and onfigures Sqoop and the Sqoop metastore service"
 recipe           "purge", "Removes and deletes an installed Airflow Server"
 
 attribute "hops_airflow/dir",
@@ -48,5 +49,22 @@ attribute "hops_airflow/group",
 
 attribute "hops_airflow/operators",
           :description => "Comma-separated list of airflow operators to install by default. E.g., 'hdfs, hive, mysql, password'",
+          :type => 'string'
+
+
+attribute "sqoop/dir",
+          :description => "Installation directory for the sqoop binaries/config files",
+          :type => 'string'
+
+attribute "sqoop/user",
+          :description => "Sqoop username to run service as",
+          :type => 'string'
+
+attribute "sqoop/group",
+          :description => "Sqoop group to run service as",
+          :type => 'string'
+
+attribute "sqoop/port",
+          :description => "Sqoop metastore port",
           :type => 'string'
 
