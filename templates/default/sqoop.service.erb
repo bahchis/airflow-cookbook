@@ -3,11 +3,13 @@ Description = Sqoop server
 After = syslog.target network.target remote-fs.target
 
 [Service]
+Environment="HADOOP_MAPRED_HOME=<%= node['hops']['base_dir'] %>/share/hadoop/mapreduce"
+Environment="JAVA_HOME=<%= node['java']['java_home'] %>"
 Restart=always
 RestartSec=3
 User = <%= node['sqoop']['user'] %>
 PIDFile = <%= node['sqoop']['base_dir'] %>/sqoop.pid
-ExecStart = <%= node['sqoop']['base_dir'] %>/bin/start-metastore.sh
+ExecStart = <%= node['sqoop']['base_dir'] %>/bin/start-metastore.sh -p <%= node['sqoop']['base_dir'] %>/sqoop.pid -l <%= node['sqoop']['base_dir'] %>/log
 ExecStop = <%= node['sqoop']['base_dir'] %>/bin/stop-metastore.sh
 LimitNOFILE = 30000
 

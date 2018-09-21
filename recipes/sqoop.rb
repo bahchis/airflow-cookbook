@@ -72,6 +72,13 @@ link node['sqoop']['base_dir'] do
   to node['sqoop']['home']
 end
 
+directory node['sqoop']['base_dir'] + "/log"  do
+  owner node['sqoop']['user']
+  group node['sqoop']['group']
+  mode "750"
+  action :create
+end
+
 exec = "#{node['ndb']['scripts_dir']}/mysql-client.sh"
 
 bash 'create_sqoop_db' do
@@ -129,8 +136,8 @@ end
 if node['kagent']['enabled'] == "true"
    kagent_config service_name do
      service "airflow"
-     log_file "#{node['sqoop']['base_dir']}/logs/sqoop.log"
-     web_port node['sqoop']['port']
+     log_file "#{node['sqoop']['base_dir']}/log/sqoop-metastore-sqoop-localhost.log"
+     web_port node['sqoop']['port'].to_i
    end
 end
 
