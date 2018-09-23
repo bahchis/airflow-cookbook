@@ -146,7 +146,7 @@ default["airflow"]["config"]["webserver"]["web_server_host"] = '0.0.0.0'
 
 default["airflow"]["config"]["webserver"]["expose_config"] = false
 default["airflow"]["config"]["webserver"]["filter_by_owner"] = true
-default["airflow"]["config"]["webserver"]["authenticate"] = true
+default["airflow"]["config"]["webserver"]["authenticate"] = false
 
 default["airflow"]["config"]["webserver"]["auth_backend"] = "airflow.contrib.auth.backends.password_auth"
 #default["airflow"]["config"]["webserver"]["auth_backend"] = hops.airflow.auth.backends.hopsworks_auth
