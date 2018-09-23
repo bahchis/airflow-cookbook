@@ -28,19 +28,20 @@ if node.attribute? "hopsworks"
     end
   end
 end
-jupyterUser = "jupyter"
-if node.attribute? "jupyter"
-    if node["jupyter"].attribute? "user"
-       jupyterUser = node['jupyter']['user']
-    end
-  end
-end
+# jupyterUser = "jupyter"
+# if node.attribute? "jupyter"
+#     if node["jupyter"].attribute? "user"
+#        jupyterUser = node['jupyter']['user']
+#     end
+#   end
+# end
 
 
 
 group node['airflow']['group'] do
   action :modify
-  members [hopsworksUser, jupyterUser]
+  #  members [hopsworksUser, jupyterUser]
+  members [hopsworksUser]  
   append true
 end
 
