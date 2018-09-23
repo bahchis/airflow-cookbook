@@ -1,6 +1,4 @@
 # coding: utf-8
-
-# coding: utf-8
 # Copyright 2015 Sergey Bahchissaraitsev
 
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,6 +21,30 @@
 
 exec = "#{node['ndb']['scripts_dir']}/mysql-client.sh"
 
+hopsworksUser = "glassfish"
+if node.attribute? "hopsworks"
+    if node["hopsworks"].attribute? "user"
+       hopsworksUser = node['hopsworks']['user']
+    end
+  end
+end
+jupyterUser = "jupyter"
+if node.attribute? "jupyter"
+    if node["jupyter"].attribute? "user"
+       jupyterUser = node['jupyter']['user']
+    end
+  end
+end
+
+
+
+group node['airflow']['group'] do
+  action :modify
+  members [hopsworksUser, jupyterUser]
+  append true
+end
+
+
 bash 'create_airflow_db' do
   user "root"
   code <<-EOF
@@ -39,8 +61,14 @@ end
 include_recipe "hops_airflow::config"
 include_recipe "hops_airflow::services"
 
-
 directory node['airflow']['base_dir'] + "/plugins"  do
+  owner node['airflow']['user']
+  group node['airflow']['group']
+  mode "770"
+  action :create
+end
+
+directory node['airflow']['base_dir'] + "/dags"  do
   owner node['airflow']['user']
   group node['airflow']['group']
   mode "770"

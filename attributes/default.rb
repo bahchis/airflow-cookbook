@@ -49,8 +49,8 @@ default["airflow"]["base_dir"]            = node['airflow']['dir'] + "/airflow"
 
 
 # General config
-default["airflow"]["directories_mode"] = "0775"
-default["airflow"]["config_file_mode"] = "0644"
+default["airflow"]["directories_mode"] = "0770"
+default["airflow"]["config_file_mode"] = "0600"
 default["airflow"]["bin_path"] = "/usr/local/bin"
 default["airflow"]["run_path"] = node["airflow"]["base_dir"] + "/run"
 default["airflow"]["is_upstart"] = node["platform"] == "ubuntu" && node["platform_version"].to_f < 15.04
