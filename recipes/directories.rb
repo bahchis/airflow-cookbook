@@ -26,16 +26,23 @@ directory node["airflow"]["config"]["core"]["dags_folder"] do
   action :create
 end
 
-directory node["airflow"]["config"]["core"]["plugins_folder"] do
-  owner node["airflow"]["user"]
-  group node["airflow"]["group"]
-  mode node["airflow"]["directories_mode"]
+directory "#{node['airflow']['config']['core']['dags_folder']}/hopsworks" do
+  owner node['airflow']['user']
+  group node['airflow']['group']
+  mode node['airflow']['directories_mode']
   action :create
 end
 
-directory node["airflow"]["run_path"] do
-  owner node["airflow"]["user"]
-  group node["airflow"]["group"]
-  mode node["airflow"]["directories_mode"]
+directory node['airflow']['config']['core']['plugins_folder'] do
+  owner node['airflow']['user']
+  group node['airflow']['group']
+  mode node['airflow']['directories_mode']
+  action :create
+end
+
+directory node['airflow']['run_path'] do
+  owner node['airflow']['user']
+  group node['airflow']['group']
+  mode node['airflow']['directories_mode']
   action :create
 end
