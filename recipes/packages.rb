@@ -16,6 +16,7 @@ python_runtime node["airflow"]["python_runtime"] do
   version node["airflow"]["python_version"]
   provider :system
   pip_version node["airflow"]["pip_version"]
+  get_pip_url node["airflow"]["get_pip_url"]
 end
 
 # Obtain the current platform name
