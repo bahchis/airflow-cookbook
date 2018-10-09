@@ -100,9 +100,16 @@ node['airflow']['packages'].each do |_key, value|
         version_to_install = v
       end
     end
-    python_package package_to_install.to_s do
-      action :install
-      version version_to_install.to_s
+    bash 'install_python__#{package_to_install}' do
+      user "root"
+      code <<-EOF
+        set -e
+        yes | pip install --no-cache-dir #{package_to_install}==#{version_to_install}
+      EOF
     end
+    #python_package package_to_install.to_s do
+    #  action :install
+    #  version version_to_install.to_s
+    #end
   end
 end

@@ -36,7 +36,7 @@ default["sqoop"]["port"]              = "16000"
 
 
 
-default["airflow"]["operators"]       = "hive,mysql,kubernetes,password,hdfs,slack,ssh,jdbc,mysql,devel_hadoop" # crypto
+default["airflow"]["operators"]       = "hive,mysql,kubernetes,password,hdfs,slack,ssh,jdbc,mysql,devel_hadoop,crypto"
 
 default["airflow"]["user_uid"] = 9999
 default["airflow"]["group_gid"] = 9999
