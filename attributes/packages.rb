@@ -13,8 +13,8 @@
 # Core packages - built to match the Setup.py file in the Aiflow repository.
 default['airflow']['packages'] =
   {
-#    async: [{ name: 'greenlet', version: '>=0.4.15' },
-#            { name: 'eventlet', version: '>=0.9.7' }],
+    async: [{ name: 'greenlet', version: '>=0.4.15' },
+            { name: 'eventlet', version: '>=0.9.7' }],
     celery: [{ name: 'celery', version: '>=3.1.17' }],
     crypto: [{ name: 'cryptography', version: '>=0.9.3' }],
     doc: [{ name: 'sphinx', version: '>=1.2.3' },
