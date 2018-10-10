@@ -104,7 +104,7 @@ node['airflow']['packages'].each do |_key, value|
       user "root"
       code <<-EOF
         set -e
-        yes | pip install --no-cache-dir #{package_to_install}==#{version_to_install}
+        yes | pip install --no-cache-dir #{package_to_install}#{version_to_install}
       EOF
     end
     #python_package package_to_install.to_s do
