@@ -14,4 +14,7 @@
 
 <% if @is_upstart -%>
 <%= "export " -%>
-<% end -%>AIRFLOW_HOME="<%= @config["core"]["airflow_home"] %>"
+<% end -%>
+export AIRFLOW_HOME="<%= @config["core"]["airflow_home"] %>"
+export SCHEDULER_RUNS="<%= node["airflow"]["scheduler_runs"] %>"
+

@@ -20,8 +20,10 @@ After=network.target
 EnvironmentFile=<%= @env_path %>
 User=<%= @user %>
 Group=<%= @group %>
-ExecStart=<%= @bin_path %>/airflow scheduler --pid <%= @run_path %>/airflow-scheduler.pid
+Type=simple
+ExecStart=<%= @bin_path %>/airflow scheduler --pid <%= @run_path %>/airflow-scheduler.pid -n ${SCHEDULER_RUNS}
 Restart=always
+RestartSec=5s
 
 [Install]
 WantedBy=multi-user.target

@@ -119,3 +119,13 @@ template node['airflow']['base_dir'] + "/create-default-user.sh" do
   group node['airflow']['group']
   mode "0774"
 end
+
+
+if node['airflow']['examples'].upcase != "TRUE"
+  bash 'remove_examples' do
+    user "root"
+    code <<-EOF
+      rm -rf /usr/local/lib/python2.7/dist-packages/airflow/example_dags/*
+    EOF
+  end
+end  
