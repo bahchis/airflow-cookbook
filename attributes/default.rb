@@ -70,7 +70,7 @@ default['airflow']["pip_version"] = true
 # default['airflow']["config"]["CONFIG_SECTION"]["CONFIG_ENTRY"]
 
 #  The home folder for airflow, default is ~/airflow
-default['airflow']["config"]["core"]["airflow_home"] = node['airflow']["home_dir"]
+default['airflow']["config"]["core"]["airflow_home"] = node['airflow']["base_dir"]
 # The folder where your airflow pipelines live, most likely a subfolder in a code repository
 default['airflow']["config"]["core"]["dags_folder"] = "#{node['airflow']["config"]["core"]["airflow_home"]}/dags"
 # The folder where airflow should store its log files. This location
