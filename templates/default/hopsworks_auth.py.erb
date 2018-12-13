@@ -75,6 +75,11 @@ class HopsworksException(Exception):
     pass
 
 
+#
+# The password could be the secret key that points to the local scratch directory and its JWT key
+# /srv/hops/scratch_dirs/<password>/.jwt/key.jwt
+# If the key is not found, airflow fails authentication
+#
 def get_hopsworks_connection(dn=None, password=None):
     tls_configuration = None
     use_ssl = False
