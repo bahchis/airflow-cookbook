@@ -35,6 +35,7 @@ template service_target do
     :run_path => node["airflow"]["run_path"],
     :bin_path => node["airflow"]["bin_path"],
     :env_path => node["airflow"]["env_path"],
+    :base_path => node["airflow"]["base_dir"],
   })
 end
 

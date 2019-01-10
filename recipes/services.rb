@@ -24,3 +24,10 @@ template "airflow_services_env" do
     :config => node["airflow"]["config"]
   })
 end
+
+template "#{node['airflow']['base_dir']}/airflow_runner.sh" do
+  source "airflow_runner.sh.erb"
+  owner node['airflow']['user']
+  group node['airflow']['group']
+  mode "0740"
+end

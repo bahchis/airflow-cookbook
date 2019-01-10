@@ -20,7 +20,7 @@ After=network.target
 EnvironmentFile=<%= @env_path %>
 User=<%= @user %>
 Group=<%= @group %>
-ExecStart=<%= @bin_path %>/airflow kerberos --pid <%= @run_path %>/airflow-kerberos.pid
+ExecStart=<%= @base_path %>/airflow_runner.sh kerberos --pid <%= @run_path %>/airflow-kerberos.pid
 Restart=always
 
 [Install]

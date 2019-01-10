@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+## Helper script used by airflow systemd units
+
+# Activate airflow anaconda environment
+source <%= node['conda']['base_dir'] %>/bin/activate airflow
+
+# Run airflow with the supplied arguments
+<%= node['airflow']['bin_path'] %>/airflow $@

@@ -13,12 +13,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
+include_recipe "hops_airflow::packages"
 
 
 # CREATE DATABASE airflow CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 # grant all on airflow.* TO ‘USERNAME'@'%' IDENTIFIED BY ‘{password}';
-
 exec = "#{node['ndb']['scripts_dir']}/mysql-client.sh"
 
 hopsworksUser = "glassfish"
@@ -41,9 +40,6 @@ bash 'create_airflow_db' do
       set -e
       #{exec} -e \"CREATE DATABASE IF NOT EXISTS airflow CHARACTER SET latin1\"
       #{exec} -e \"GRANT ALL PRIVILEGES ON airflow.* TO '#{node[:mysql][:user]}'@'localhost' IDENTIFIED BY '#{node[:mysql][:password]}'\"
-      yes | pip install --force-reinstall markdown
-      yes | pip install --force-reinstall werkzeug
-      yes | pip install --force-reinstall futures
     EOF
   not_if "#{exec} -e 'show databases' | grep airflow"
 end
@@ -109,7 +105,7 @@ bash 'init_airflow_db' do
   code <<-EOF
       set -e
       export AIRFLOW_HOME=#{node['airflow']['base_dir']}
-      airflow upgradedb
+      #{node['airflow']['bin_path']}/airflow upgradedb
     EOF
 end
 
