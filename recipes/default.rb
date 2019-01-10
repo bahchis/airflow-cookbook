@@ -100,12 +100,16 @@ bash 'mysql_hack_fix' do
 end
 
 
+#
+# Run airflow upgradedb - not airflow initdb. See:
+# https://medium.com/datareply/airflow-lesser-known-tips-tricks-and-best-practises-cf4d4a90f8f
+#
 bash 'init_airflow_db' do
   user node['airflow']['user']
   code <<-EOF
       set -e
       export AIRFLOW_HOME=#{node['airflow']['base_dir']}
-      airflow initdb
+      airflow upgradedb
     EOF
 end
 
