@@ -19,17 +19,14 @@ directory node["airflow"]["config"]["core"]["airflow_home"] do
   action :create
 end
 
+# /srv/hops/airflow/dags is a private directory - each project will have its own
+# directory owned by 'glassfish' with a secret key as a name. No read permissions for
+# group on this directory, means the 'glassfish' user cannot perform 'ls' on this directory
+# to find out other project's secret keys
 directory node["airflow"]["config"]["core"]["dags_folder"] do
   owner node["airflow"]["user"]
   group node["airflow"]["group"]
-  mode node["airflow"]["directories_mode"]
-  action :create
-end
-
-directory "#{node['airflow']['config']['core']['dags_folder']}/hopsworks" do
-  owner node['airflow']['user']
-  group node['airflow']['group']
-  mode node['airflow']['directories_mode']
+  mode "710"
   action :create
 end
 
