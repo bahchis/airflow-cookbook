@@ -38,6 +38,18 @@ template service_target do
   })
 end
 
+# Copy Hopsworks JWT authentication module. PYTHONPATH is exported
+# in airflow.env
+remote_directory "#{node['airflow']['base_dir']}/hopsworks_auth" do
+  source "hopsworks_auth"
+  owner node['airflow']['user']
+  group node['airflow']['group']
+  mode 0740
+  files_owner node['airflow']['user']
+  files_group node['airflow']['group']
+  files_mode 0740
+end
+
 service "airflow-webserver" do
   action [:enable, :start]
 end
