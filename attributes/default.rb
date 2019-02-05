@@ -23,7 +23,8 @@ default['airflow']["version"]         = "1.10.1"
 default['airflow']['user']            = node['install']['user'].empty? ? 'airflow' : node['install']['user']
 default['airflow']['group']           = node['install']['user'].empty? ? 'airflow' : node['install']['user']
 
-default['airflow']["examples"]        = "true"
+default['airflow']['mysql_user']      = "airflow_db"
+default['airflow']['mysql_password']  = "airflow_db"
 
 # Sqoop setup
 default["sqoop"]["version"]           = "1.4.7"
@@ -62,8 +63,8 @@ default['airflow']["scheduler_runs"] = 5
 
 
 # Python config
-default['airflow']["python_runtime"] = "2"
-default['airflow']["python_version"] = "2.7"
+default['airflow']["python_runtime"] = "3"
+default['airflow']["python_version"] = "3.6"
 default['airflow']["pip_version"] = true
 
 # Configurations stated below are required for this cookbook and will be written to airflow.cfg, you can add more config by using structure like:
@@ -97,11 +98,11 @@ default['airflow']["config"]["core"]["fernet_key"] = "G3jB5--jCQpRYp7hwUtpfQ_S8z
 # Celery
 default['airflow']["config"]["celery"]["worker_concurrency"] = 16
 default['airflow']["config"]["celery"]["broker_url"] = "rdis://#{node['host']}:6379/0"
-default['airflow']["config"]["celery"]["celery_result_backend"] = "db+mysql://#{node['mysql']['user']}:#{node['mysql']['password']}@localhost:3306/airflow"
+default['airflow']["config"]["celery"]["celery_result_backend"] = "db+mysql://#{node['airflow']['mysql_user']}:#{node['airflow']['mysql_password']}@#{node['fqdn']}:3306/airflow"
 
 # MySQL
 # The SqlAlchemy connection string to the metadata database.
-default['airflow']["config"]["core"]["sql_alchemy_conn"] = "mysql://#{node['mysql']['user']}:#{node['mysql']['password']}@localhost:3306/airflow"
+default['airflow']["config"]["core"]["sql_alchemy_conn"] = "mysql://#{node['airflow']['mysql_user']}:#{node['airflow']['mysql_password']}@#{node['fqdn']}:3306/airflow"
 # The SqlAlchemy pool size is the maximum number of database connection in the pool.
 default['airflow']["config"]["core"]["sql_alchemy_pool_size"] = 5
 # The SqlAlchemy pool recycle is the number of seconds a connection
@@ -136,6 +137,7 @@ default['airflow']["config"]["github_enterprise"]["api_rev"] = 'v3'
 # SequentialExecutor, LocalExecutor, CeleryExecutor
 default['airflow']["config"]["core"]["executor"]  = "LocalExecutor"
 
+default['airflow']['config']['core']['load_examples'] = false
 
 # The base url of your website as airflow cannot guess what domain or
 # cname you are using. This is used in automated emails that

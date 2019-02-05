@@ -43,3 +43,13 @@ directory node['airflow']['run_path'] do
   mode node['airflow']['directories_mode']
   action :create
 end
+
+# Directory where Hopsworks will store JWT for projects
+# Directory structure will be secrets/SECRET_PROJECT_ID/project_user.jwt
+# secrets dir is not readable so someone must only guess the SECRET_PROJECT_ID
+directory "#{node['airflow']['base_dir']}/secrets" do
+  owner node['airflow']['user']
+  group node['airflow']['group']
+  mode 0130
+  action :create
+end

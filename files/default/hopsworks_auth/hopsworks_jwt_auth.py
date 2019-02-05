@@ -1,6 +1,9 @@
+import sys
 import requests
-import jwt
 import flask_login
+
+from requests.auth import AuthBase
+
 from flask_login import login_required, logout_user, current_user, UserMixin
 from flask import flash, url_for, redirect, request, current_app
 
@@ -9,6 +12,16 @@ from airflow import configuration
 from airflow.configuration import AirflowConfigException
 from airflow.utils.log.logging_mixin import LoggingMixin
 
+PY3 = sys.version_info[0] == 3
+
+if PY3:
+    from urllib import parse as urlparse
+    from jwt import JWT
+    jwt = JWT()
+else:
+    import urlparse
+    import jwt
+    
 log = LoggingMixin().log
 
 login_manager = flask_login.LoginManager()
@@ -67,11 +80,30 @@ def load_user(user_id):
     return JWTUser(user)
 
 def authenticate(jwt):
-    request_headers = {'Authorization': jwt}
-    auth_endpoint = configuration.conf.get("webserver", "jwt_auth_endpoint")
-    response = requests.get(auth_endpoint, headers=request_headers, verify=False)
+    hopsworks_host = configuration.conf.get("webserver", "hopsworks_host")
+    hopsworks_port = configuration.conf.get("webserver", "hopsworks_port")
+    if not hopsworks_port:
+        hopsworks_port = 443
+    url = "https://{host}:{port}/hopsworks-api/api/auth/jwt/session".format(
+        host = parse_host(hopsworks_host),
+        port = hopsworks_port)
+
+    auth = AuthorizationToken(jwt)
+    response = requests.get(url, auth=auth, verify=False)
+    response.raise_for_status()
     if response.status_code != requests.codes.ok:
         raise AuthenticationError()
+
+def parse_host(host):
+    """
+    Host should be just the hostname or ip address
+    Remove protocol or any endpoints from the host
+    """
+    parsed_host = urlparse.urlparse(host).hostname
+    if parsed_host:
+        # Host contains protocol
+        return parsed_host
+    return host
 
 def login(self, request):
     if current_user.is_authenticated:
@@ -100,4 +132,15 @@ def login(self, request):
         return redirect(url_for('airflow.noaccess'))
 
 def decode_jwt(encoded_jwt):
+    if PY3:
+        return jwt.decode(encoded_jwt, do_verify=False)
+    
     return jwt.decode(encoded_jwt, verify=False)
+
+class AuthorizationToken(AuthBase):
+    def __init__(self, token):
+        self.token = token
+
+    def __call__(self, request):
+        request.headers['Authorization'] = self.token
+        return request

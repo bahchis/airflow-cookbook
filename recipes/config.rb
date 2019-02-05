@@ -12,7 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-path = "/hopsworks-api/api/auth/jwt/session"
 hopsworks_ip = "localhost"
 hopsworks_port = "8181"
 if node.attribute?("hopsworks")
@@ -22,8 +21,8 @@ if node.attribute?("hopsworks")
   end
 end
 
-endpoint = "https://" + hopsworks_ip + ":" + hopsworks_port + path
-node.override['airflow']["config"]["webserver"]["jwt_auth_endpoint"] = endpoint
+node.override['airflow']["config"]["webserver"]["hopsworks_host"] = hopsworks_ip
+node.override['airflow']["config"]["webserver"]["hopsworks_port"] = hopsworks_port
 
 template "#{node["airflow"]["config"]["core"]["airflow_home"]}/airflow.cfg" do
   source "airflow.cfg.erb"
