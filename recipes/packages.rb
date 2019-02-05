@@ -75,18 +75,20 @@ end
 
 ## Create Aiflow anaconda environment.
 bash "create_airflow_env" do
+  umask "022"
   user node['conda']['user']
   group node['conda']['group']
   environment ({'HOME' => "/home/#{node['conda']['user']}"})
   cwd "/home/#{node['conda']['user']}"
   code <<-EOF
-    #{node['conda']['base_dir']}/bin/conda create -q -y -n airflow python=2.7
+    #{node['conda']['base_dir']}/bin/conda create -q -y -n airflow python=3.6
   EOF
   not_if "test -d #{node['conda']['base_dir']}/envs/airflow", :user => node['conda']['user']
 end
 
 # Install Airflow
 bash 'install_airflow' do
+  umask "022"
   user node['conda']['user']
   group node['conda']['group']
   environment ({'SLUGIFY_USES_TEXT_UNIDECODE' => 'yes',
@@ -101,7 +103,8 @@ end
 
 
 for operator in node['airflow']['operators'].split(",")
-  bash 'install_airflow_#{operator}' do
+  bash 'install_airflow_' + operator do
+    umask "022"
     user node['conda']['user']
     group node['conda']['group']
     environment ({'SLUGIFY_USES_TEXT_UNIDECODE' => 'yes',
@@ -125,7 +128,8 @@ node['airflow']['packages'].each do |_key, value|
         version_to_install = v
       end
     end
-    bash 'install_python__#{package_to_install}' do
+    bash 'install_python__' + package_to_install do
+      umask "022"
       user node['conda']['user']
       group node['conda']['group']
       code <<-EOF

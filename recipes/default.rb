@@ -13,12 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+include_recipe "hops_airflow::db"
 include_recipe "hops_airflow::packages"
-
-
-# CREATE DATABASE airflow CHARACTER SET utf8 COLLATE utf8_unicode_ci;
-# grant all on airflow.* TO ‘USERNAME'@'%' IDENTIFIED BY ‘{password}';
-exec = "#{node['ndb']['scripts_dir']}/mysql-client.sh"
 
 hopsworksUser = "glassfish"
 if node.attribute? "hopsworks"
@@ -31,17 +27,6 @@ group node['airflow']['group'] do
   action :modify
   members [hopsworksUser]  
   append true
-end
-
-
-bash 'create_airflow_db' do
-  user "root"
-  code <<-EOF
-      set -e
-      #{exec} -e \"CREATE DATABASE IF NOT EXISTS airflow CHARACTER SET latin1\"
-      #{exec} -e \"GRANT ALL PRIVILEGES ON airflow.* TO '#{node[:mysql][:user]}'@'localhost' IDENTIFIED BY '#{node[:mysql][:password]}'\"
-    EOF
-  not_if "#{exec} -e 'show databases' | grep airflow"
 end
 
 include_recipe "hops_airflow::config"
@@ -60,18 +45,6 @@ directory node['airflow']['base_dir'] + "/dags"  do
   mode "770"
   action :create
 end
-
-
-template node['airflow']['base_dir'] + "/plugins/hopsworks_job_operator.py" do
-  source "hopsworks_job_operator.py.erb"
-  owner node['airflow']['user']
-  group node['airflow']['group']
-  mode "0644"
-  variables({
-    :config => node["airflow"]["config"]
-  })
-end
-
 
 template "airflow_services_env" do
   source "init_system/airflow-env.erb"
@@ -120,12 +93,13 @@ template node['airflow']['base_dir'] + "/create-default-user.sh" do
   mode "0774"
 end
 
-
-if node['airflow']['examples'].upcase != "TRUE"
+examples_dir = "#{node['conda']['base_dir']}/envs/airflow/lib/python3.7/site-packages/airflow/example_dags"
+if not node['airflow']['config']['core']['load_examples']
   bash 'remove_examples' do
     user "root"
     code <<-EOF
-      rm -rf /usr/local/lib/python2.7/dist-packages/airflow/example_dags/*
+      rm -rf "#{examples_dir}/*"
     EOF
+    only_if "test -d #{examples_dir}", :user => "root"
   end
 end  

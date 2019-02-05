@@ -9,11 +9,11 @@
   </property>  
   <property>  
     <name>sqoop.metastore.client.autoconnect.username</name>  
-    <value><%= node['mysql']['user'] %></value>  
+    <value><%= node['airflow']['mysql_user'] %></value>  
   </property>  
   <property>  
     <name>sqoop.metastore.client.autoconnect.password</name>  
-    <value><%= node['mysql']['password'] %></value>  
+    <value><%= node['airflow']['mysql_password'] %></value>  
   </property>  
   <property>  
     <name>sqoop.metastore.client.record.password</name>  

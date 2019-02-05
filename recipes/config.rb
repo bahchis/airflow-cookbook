@@ -12,6 +12,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+hopsworks_ip = "localhost"
+hopsworks_port = "8181"
+if node.attribute?("hopsworks")
+  hopsworks_ip = private_recipe_ip("hopsworks", "default")
+  if node['hopsworks'].attribute?("secure_port")
+    hopsworks_port = node['hopsworks']['secure_port']
+  end
+end
+
+node.override['airflow']["config"]["webserver"]["hopsworks_host"] = hopsworks_ip
+node.override['airflow']["config"]["webserver"]["hopsworks_port"] = hopsworks_port
 
 template "#{node["airflow"]["config"]["core"]["airflow_home"]}/airflow.cfg" do
   source "airflow.cfg.erb"
