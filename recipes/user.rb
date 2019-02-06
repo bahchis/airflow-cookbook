@@ -13,13 +13,13 @@
 # limitations under the License.
 
 group node["airflow"]["group"] do
-  gid node["airflow"]["group_gid"]
+#  gid node["airflow"]["group_gid"]
 end
 
 user node["airflow"]["user"] do
   comment "Airflow user"
-  uid node["airflow"]["user_uid"]
-  gid node["airflow"]["group_gid"]
+#  uid node["airflow"]["user_uid"]
+#  gid node["airflow"]["group_gid"]
   home node["airflow"]["user_home_directory"]
   manage_home true
   shell node["airflow"]["shell"]
