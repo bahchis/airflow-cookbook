@@ -31,6 +31,7 @@ depends 'kagent'
 depends 'ndb'
 depends 'java'
 depends 'hops'
+depends 'kzookeeper'
 
 recipe           "default", "Configures an Airflow Server"
 recipe           "install", "Installs an Airflow Server"

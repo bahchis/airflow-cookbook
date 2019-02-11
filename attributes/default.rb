@@ -15,6 +15,7 @@
 include_attribute "kagent"
 include_attribute "ndb"
 include_attribute "hops"
+include_attribute "kzookeeper"
 
 
 # User configuration

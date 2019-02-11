@@ -36,6 +36,12 @@ group node['sqoop']['group'] do
   append true
 end
 
+group node['kzookeeper']['group'] do
+  action :modify
+  members ["#{node['sqoop']['user']}"]
+  append true
+end
+
 
 package_url = "#{node['sqoop']['url']}"
 base_package_filename = File.basename(package_url)
@@ -99,9 +105,14 @@ template "#{node['sqoop']['base_dir']}/conf/sqoop-site.xml" do
   group node['sqoop']['group']
   mode 0750
   action :create
-#  variables({
-#              :influxdb_ip => influxdb_ip
-#            })
+end
+
+template "#{node['sqoop']['base_dir']}/conf/sqoop-env.sh" do
+  source "sqoop-env.sh.erb"
+  owner node['sqoop']['user']
+  group node['sqoop']['group']
+  mode 0750
+  action :create
 end
 
 
