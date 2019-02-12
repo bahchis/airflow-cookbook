@@ -25,3 +25,9 @@ user node["airflow"]["user"] do
   shell node["airflow"]["shell"]
 end
 
+
+group node['hops']['group'] do
+  action :modify
+  members ["#{node['airflow']['user']}", "#{node['sqoop']['user']}"]
+  append true
+end

@@ -1,0 +1,20 @@
+# included in all the hadoop scripts with source command
+# should not be executable directly
+# also should not be passed any arguments, since we need original $*
+
+# Set Hadoop-specific environment variables here.
+
+#Set path to where bin/hadoop is available
+export HADOOP_COMMON_HOME=<%= node['hops']['base_dir'] %>
+
+#Set path to where hadoop-*-core.jar is available
+export HADOOP_MAPRED_HOME=<%= node['hops']['base_dir'] %>/share/hadoop/mapreduce
+
+#set the path to where bin/hbase is available
+#export HBASE_HOME=
+
+#Set the path to where bin/hive is available
+export HIVE_HOME=<%= node['hive2']['base_dir'] %>
+
+#Set the path for where zookeper config dir is
+export ZOOCFGDIR=<%= node['kzookeeper']['base_dir'] %>/conf
