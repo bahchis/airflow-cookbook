@@ -28,10 +28,8 @@ user node['airflow']['user'] do
   not_if "getent passwd #{node['airflow']['user']}"
 end
 
-
-
 group node['hops']['group'] do
   action :modify
-  members ["#{node['airflow']['user']}", "#{node['sqoop']['user']}"]
+  members ["#{node['airflow']['user']}"]
   append true
 end
