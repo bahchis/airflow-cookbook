@@ -115,6 +115,15 @@ template "#{node['sqoop']['base_dir']}/conf/sqoop-env.sh" do
   action :create
 end
 
+bash 'mysql-sqoop' do
+        user "root"
+        group node['sqoop']['group']
+        code <<-EOH
+          cp -f #{node['hive2']['base_dir']}/lib/mysql-connector*.jar #{node['sqoop']['base_dir']}/lib
+          chown -R #{node['sqoop']['user']} #{node['sqoop']['base_dir']}/lib/*.jar
+        EOH
+end
+
 
 service_name="sqoop"
 
