@@ -12,6 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+directory node["airflow"]["dir"]  do
+  owner node["airflow"]["user"]
+  group node["airflow"]["group"]
+  mode "755"
+  recursive true
+  action :create
+  not_if { File.directory?("#{node["airflow"]["dir"]}") }
+end
+
 directory node["airflow"]["config"]["core"]["airflow_home"] do
   owner node["airflow"]["user"]
   group node["airflow"]["group"]
