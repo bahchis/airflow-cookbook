@@ -11,6 +11,7 @@ from airflow import models
 from airflow import configuration
 from airflow.configuration import AirflowConfigException
 from airflow.utils.log.logging_mixin import LoggingMixin
+from airflow.utils.db import provide_session
 
 PY3 = sys.version_info[0] == 3
 
@@ -29,6 +30,8 @@ login_manager.login_view = 'airflow.login'
 login_manager.session_protection = "Strong"
 
 JWT_SUBJECT_KEY = 'sub'
+JWT_ROLES_KEY = 'roles'
+JWT_ADMIN_ROLE = 'HOPS_ADMIN'
 
 class AuthenticationError(Exception):
     pass
@@ -37,14 +40,6 @@ class JWTUser(models.User):
     def __init__(self, user):
         self.user = user
         log.debug("User is: {}".format(user))
-        if configuration.conf.getboolean("webserver", "filter_by_owner"):
-            superuser_username = configuration.conf.get("webserver", "superuser")
-            if user.username == superuser_username:
-                self.superuser = True
-            else:
-                self.superuser = False
-        else:
-            self.superuser = True
 
     @property
     def is_active(self):
@@ -63,20 +58,23 @@ class JWTUser(models.User):
 
     def data_profiling(self):
         """Provides access to data profiling tools"""
-        return self.superuser
-    
+        return self.user.is_superuser()
+
     def is_superuser(self):
         """Access all things"""
-        return self.superuser
+        return self.user.is_superuser()
 
     def get_id(self):
         return self.user.get_id()
     
 
 @login_manager.user_loader
-def load_user(user_id):
+@provide_session
+def load_user(user_id, session=None):
+    if not user_id or user_id == 'None':
+        return None
     log.debug("Loading user with id: {0}".format(user_id))
-    user = models.User(id=user_id, username=user_id, is_superuser=False)
+    user = session.query(models.User).filter(models.User.id == int(user_id)).first()
     return JWTUser(user)
 
 def authenticate(jwt):
@@ -105,7 +103,8 @@ def parse_host(host):
         return parsed_host
     return host
 
-def login(self, request):
+@provide_session
+def login(self, request, session=None):
     if current_user.is_authenticated:
         flash("You are already logged in")
         return redirect(url_for('index'))
@@ -123,9 +122,26 @@ def login(self, request):
         username = decoded_jwt[JWT_SUBJECT_KEY]
         log.debug("Subject is: {}".format(username))
 
-        user = models.User(id=username, username=username, is_superuser=False)
+        roles = decoded_jwt[JWT_ROLES_KEY]
+        log.debug("User roles: {}".format(roles))
         
+        if JWT_ADMIN_ROLE in roles:
+            superuser = True
+        else:
+            superuser = False
+
+        user = session.query(models.User).filter(
+            models.User.username == username).first()
+
+        if not user:
+            user = models.User(username=username, is_superuser=superuser)
+        else:
+            user.superuser = superuser
+
+        session.merge(user)
+        session.commit()
         flask_login.login_user(JWTUser(user), force=True)
+        session.commit()
         return redirect(request.args.get("next") or url_for("admin.index"))
     except AuthenticationError:
         flash("Invalid JWT")

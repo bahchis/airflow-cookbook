@@ -19,6 +19,7 @@
 .*.sw[a-z]
 *.un~
 pkg/
+*.pyc
 
 # Berkshelf
 .vagrant
