@@ -156,7 +156,6 @@ default['airflow']["config"]["webserver"]["authenticate"] = true
 #default['airflow']["config"]["webserver"]["auth_backend"] = "airflow.contrib.auth.backends.password_auth"
 # PYTHONPATH should include the path to this module. PYTHONPATH is exported in airflow.env
 default['airflow']["config"]["webserver"]["auth_backend"] = "hopsworks_auth.hopsworks_jwt_auth"
-default["airflow"]["config"]["webserver"]["superuser"] = "meb10000"
 
 # Secret key used to run your flask app
 default['airflow']["config"]["webserver"]["secret_key"]  = "temporary_key"
