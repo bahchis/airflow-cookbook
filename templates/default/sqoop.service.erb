@@ -9,7 +9,7 @@ Restart=always
 RestartSec=3
 User = <%= node['sqoop']['user'] %>
 PIDFile = <%= node['sqoop']['base_dir'] %>/sqoop.pid
-ExecStart = <%= node['sqoop']['base_dir'] %>/bin/start-metastore.sh -p <%= node['sqoop']['base_dir'] %>/sqoop.pid -l <%= node['sqoop']['base_dir'] %>/log
+ExecStart = <%= node['sqoop']['base_dir'] %>/bin/start-metastore.sh -p <%= node['sqoop']['base_dir'] %>/sqoop.pid -l <%= node['sqoop']['base_dir'] %>/log 
 ExecStop = <%= node['sqoop']['base_dir'] %>/bin/stop-metastore.sh
 LimitNOFILE = 30000
 

@@ -36,7 +36,6 @@ group node['sqoop']['group'] do
   append true
 end
 
-
 package_url = "#{node['sqoop']['url']}"
 base_package_filename = File.basename(package_url)
 cached_package_filename = "#{Chef::Config['file_cache_path']}/#{base_package_filename}"
@@ -92,18 +91,30 @@ bash 'create_sqoop_db' do
 end
 
 
-
 template "#{node['sqoop']['base_dir']}/conf/sqoop-site.xml" do
   source "sqoop-site.xml.erb"
   owner node['sqoop']['user']
   group node['sqoop']['group']
   mode 0750
   action :create
-#  variables({
-#              :influxdb_ip => influxdb_ip
-#            })
 end
 
+template "#{node['sqoop']['base_dir']}/conf/sqoop-env.sh" do
+  source "sqoop-env.sh.erb"
+  owner node['sqoop']['user']
+  group node['sqoop']['group']
+  mode 0750
+  action :create
+end
+
+remote_file "#{node['sqoop']['base_dir']}/lib/mysql-connector-java-#{node['hive2']['mysql_connector_version']}-bin.jar" do
+  source node['hive2']['mysql_connector_url']
+  checksum node['hive2']['mysql_connector_checksum']
+  owner node['sqoop']['user']
+  group node['sqoop']['group']
+  mode '0755'
+  action :create_if_missing
+end
 
 service_name="sqoop"
 

@@ -13,15 +13,23 @@
 # limitations under the License.
 
 group node["airflow"]["group"] do
-  gid node["airflow"]["group_gid"]
+  action :create
+  not_if "getent group #{node['airflow']['group']}"
 end
 
-user node["airflow"]["user"] do
+user node['airflow']['user'] do
   comment "Airflow user"
-  uid node["airflow"]["user_uid"]
-  gid node["airflow"]["group_gid"]
   home node["airflow"]["user_home_directory"]
+  gid node['airflow']['group']
+  system true
+  shell "/bin/bash"
   manage_home true
-  shell node["airflow"]["shell"]
+  action :create
+  not_if "getent passwd #{node['airflow']['user']}"
 end
 
+group node['hops']['group'] do
+  action :modify
+  members ["#{node['airflow']['user']}"]
+  append true
+end
