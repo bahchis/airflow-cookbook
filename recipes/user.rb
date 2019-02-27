@@ -29,6 +29,11 @@ user node['airflow']['user'] do
 end
 
 group node['hops']['group'] do
+  action :create
+  not_if "getent group #{node['hops']['group']}"
+end
+
+group node['hops']['group'] do
   action :modify
   members ["#{node['airflow']['user']}"]
   append true

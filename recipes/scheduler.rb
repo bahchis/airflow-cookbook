@@ -48,6 +48,7 @@ if node['kagent']['enabled'] == "true"
       service "airflow"
       log_file "#{node["airflow"]["config"]["core"]["base_log_folder"]}/airflow-scheduler.log"
       config_file "#{node['airflow']['base_dir']}/airflow.cfg"
+      fail_attempts 10
       restart_agent false
       action :add
     end
