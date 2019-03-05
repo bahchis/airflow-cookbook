@@ -21,7 +21,7 @@ EnvironmentFile=<%= @env_path %>
 User=<%= @user %>
 Group=<%= @group %>
 Type=simple
-ExecStart=<%= @base_path %>/airflow_runner.sh scheduler --pid <%= @run_path %>/airflow-scheduler.pid -n ${SCHEDULER_RUNS}
+ExecStart=<%= @base_path %>/airflow_runner.sh scheduler --pid <%= @run_path %>/airflow-scheduler.pid --run-duration ${SCHEDULER_DURATION}
 Restart=always
 RestartSec=5s
 

@@ -60,6 +60,8 @@ default['airflow']["is_upstart"] = node["platform"] == "ubuntu" && node["platfor
 default['airflow']["init_system"] = node['airflow']["is_upstart"] ? "upstart" : "systemd"
 default['airflow']["env_path"] = node['airflow']["base_dir"] + "/airflow.env"
 default['airflow']["scheduler_runs"] = 5
+# Number of seconds to execute before exiting
+default['airflow']["scheduler_duration"] = 21600
 
 
 # Python config
@@ -208,6 +210,8 @@ default['airflow']['config']['webserver']['base_url'] = "http://localhost/hopswo
 #
 # Scheduler
 #
+# https://cwiki.apache.org/confluence/display/AIRFLOW/Scheduler+Basics
+#
 # Task instances listen for external kill signal (when you clear tasks
 # from the CLI or the UI), this defines the frequency at which they should
 # listen (in seconds).
@@ -216,4 +220,11 @@ default['airflow']["config"]["scheduler"]["job_heartbeat_sec"]  = 5
 # Tthis defines how many threads will run. However airflow will never
 # use more threads than the amount of cpu cores available.
 default['airflow']["config"]["scheduler"]["max_threads"]  = 2
-
+# Parse and schedule each file no faster than this interval.
+default['airflow']["config"]["scheduler"]["min_file_process_interval"]  = 10
+# How often in seconds to scan the DAGs directory for new files.
+default['airflow']["config"]["scheduler"]["dag_dir_list_interval"] = 40
+# How many seconds do we wait for tasks to heartbeat before mark them as zombies.
+default['airflow']["config"]["scheduler"]["scheduler_zombie_task_threshold"] = 300
+# How often should stats be printed to the logs 
+default['airflow']["config"]["scheduler"]["print_stats_interval"] = 600

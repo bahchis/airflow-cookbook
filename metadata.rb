@@ -63,6 +63,18 @@ attribute "airflow/scheduler_runs",
           :description => "Number of runs to execute before the scheduler is restarted",
           :type => 'string'
 
+attribute "airflow/scheduler_duration",
+          :description => "Number of seconds to execute before the scheduler exits",
+          :type => 'string'
+
+attribute "airflow/config/scheduler/min_file_process_interval",
+          :description => "Parse and schedule each file no faster than this interval.",
+          :type => 'string'
+
+attribute "airflow/config/scheduler/dag_dir_list_interval",
+          :description => "How often in seconds to scan the DAGs directory for new files.",
+          :type => 'string'
+ 
 attribute "sqoop/dir",
           :description => "Installation directory for the sqoop binaries/config files",
           :type => 'string'
