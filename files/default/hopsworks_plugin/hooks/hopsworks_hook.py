@@ -21,7 +21,9 @@ import os
 import sys
 import hashlib
 import requests
+import glob
 
+from time import sleep
 from requests import exceptions as requests_exceptions
 from requests.auth import AuthBase
 
@@ -41,9 +43,18 @@ else:
 AIRFLOW_HOME_ENV = "AIRFLOW_HOME"
 JWT_FILE_SUFFIX = ".jwt"
 
+# Key for project ID for PROJECT_INFO_NAME response
+PROJECT_ID_KEY = 'projectId'
+# Key for project name for PROJECT_INFO_ID response
+PROJECT_NAME_KEY = 'projectName'
+
 RUN_JOB = ("POST", "hopsworks-api/api/project/{project_id}/jobs/{job_name}/executions?action=start")
 # Get the latest execution
 JOB_STATE = ("GET", "hopsworks-api/api/project/{project_id}/jobs/{job_name}/executions?sort_by=appId:desc&limit=1")
+# Get Project info from name
+PROJECT_INFO_NAME = ("GET", "hopsworks-api/api/project/getProjectInfo/{project_name}")
+# Get Project info from id
+PROJECT_INFO_ID = ("GET", "hopsworks-api/api/project/{project_id}")
 
 class HopsworksHook(BaseHook, LoggingMixin):
     """
@@ -51,17 +62,27 @@ class HopsworksHook(BaseHook, LoggingMixin):
 
     :param hopsworks_conn_id: The name of Hopsworks connection to use.
     :type hopsworks_conn_id: str
-    :param project_id: The project ID the job is associated with.
+    :param project_id: Project ID the job is associated with.
     :type project_id: int
+    :param project_name: Project name the job is associated with.
+    :type project_name: str
     :param owner: Hopsworks username
     :type owner: str
     """
-    def __init__(self, hopsworks_conn_id='hopsworks_default', project_id=None, owner=None):
+    def __init__(self, hopsworks_conn_id='hopsworks_default', project_id=None,
+                 project_name=None, owner=None):
         self.hopsworks_conn_id = hopsworks_conn_id
-        self.project_id = project_id
         self.owner = owner
         self.hopsworks_conn = self.get_connection(hopsworks_conn_id)
-        self._get_airflow_home()
+        self.project_name = project_name
+
+        if project_id is None:
+            self.project_id,_ = self._get_project_info(project_id, project_name)
+        else:
+            self.project_id = project_id
+            
+        if project_name is None:
+            _, self.project_name = self._get_project_info(project_id, project_name)
 
     def get_connection(self, connection_id):
         hopsworks_host = configuration.conf.get("webserver", "hopsworks_host")
@@ -94,14 +115,12 @@ class HopsworksHook(BaseHook, LoggingMixin):
         response = self._do_api_call(method, endpoint)
         item = response['items'][0]
         return item['state']
-        
+
     def _do_api_call(self, method, endpoint):
-        jwt = self._parse_jwt_for_user()
         url = "https://{host}:{port}/{endpoint}".format(
             host = self.hopsworks_conn.host,
             port = self.hopsworks_conn.port,
             endpoint = endpoint)
-        auth = AuthorizationToken(jwt)
         if "GET" == method:
             requests_method = requests.get
         elif "POST" == method:
@@ -109,17 +128,47 @@ class HopsworksHook(BaseHook, LoggingMixin):
         else:
             raise AirflowException("Unexpected HTTP method: " + method)
 
-        try:
-            # Until we find a better approach to load trust anchors and
-            # bypass hostname verification, disable verify
-            response = requests_method(url, auth=auth, verify=False)
-            response.raise_for_status()
-            return response.json()
-        except requests_exceptions.SSLError as ex:
-            raise AirflowException(ex)
-        except requests_exceptions.RequestException as ex:
-            raise AirflowException("Error making HTTP request. Response: {0} - Status Code: {1}"
-                                   .format(ex.response.content, ex.response.status_code))
+        attempts = 1
+        while True:
+            try:
+                jwt = self._parse_jwt_for_user()
+                auth = AuthorizationToken(jwt)
+                # Until we find a better approach to load trust anchors and
+                # bypass hostname verification, disable verify
+                response = requests_method(url, auth=auth, verify=False)
+                response.raise_for_status()
+                return response.json()
+            except requests_exceptions.SSLError as ex:
+                raise AirflowException(ex)
+            except requests_exceptions.RequestException as ex:
+                if attempts > 3:
+                    raise AirflowException("Error making HTTP request. Response: {0} - Status Code: {1}"
+                                           .format(ex.response.content, ex.response.status_code))
+                self.log.warn("Error making HTTP request, retrying...")
+                attempts += 1
+                sleep(1)
+        
+    def _get_project_info(self, project_id, project_name):
+        if project_id is None and project_name is None:
+            raise AirflowException("At least project_id or project_name should be specified")
+        if project_id is None:
+            method, endpoint = PROJECT_INFO_NAME
+            endpoint = endpoint.format(project_name=project_name)
+        elif project_name is None:
+            method, endpoint = PROJECT_INFO_ID
+            endpoint = endpoint.format(project_id=project_id)
+
+        response = self._do_api_call(method, endpoint)
+        if PROJECT_ID_KEY not in response:
+            raise AirflowException("Could not parse {0} from REST response"
+                                   .format(PROJECT_ID_KEY))
+        project_id_resp = response[PROJECT_ID_KEY]
+
+        if PROJECT_NAME_KEY not in response:
+            raise AirflowException("Could not parse {0} from REST response"
+                                   .format(PROJECT_NAME_KEY))
+        project_name_resp = response[PROJECT_NAME_KEY]
+        return project_id_resp, project_name_resp
             
     def _parse_host(self, host):
         """
@@ -146,11 +195,21 @@ class HopsworksHook(BaseHook, LoggingMixin):
 
     def _generate_secret_dir(self):
         """
-        Generate the secret project directory where the JWT file should be located
+        Generate the secret project directory where the JWT file
+        and X.509 should be located
         """
+        airflow_home = self._get_airflow_home()
+        # First try with owner
+        digest = hashlib.sha256(str(self.owner).encode('UTF-8')).hexdigest()
+        secret_dir = os.path.join(airflow_home, "secrets", digest)
+        if os.path.exists(secret_dir):
+            return secret_dir
+
+        # Then try with project_id for backward compatibility
         if not self.project_id:
             raise AirflowException("Hopsworks Project ID is not set")
-        return hashlib.sha256(str(self.project_id).encode('UTF-8')).hexdigest()
+        digest = hashlib.sha256(str(self.project_id).encode('UTF-8')).hexdigest()
+        return os.path.join(airflow_home, "secrets", digest)
 
     def _parse_jwt_for_user(self):
         """
@@ -162,10 +221,19 @@ class HopsworksHook(BaseHook, LoggingMixin):
         if not self.owner:
             raise AirflowException("Owner of the DAG is not specified")
         
-        airflow_home = self._get_airflow_home()
         secret_dir = self._generate_secret_dir()
-        filename = self.owner + JWT_FILE_SUFFIX
-        jwt_token_file = os.path.join(airflow_home, "secrets", secret_dir, filename)
+
+        # When hook is constructed and project name is not provided
+        # we should get the first token available for this user.
+        if self.project_name is None:
+            jwt_regex = os.path.join(secret_dir, '*__{0}.jwt'.format(self.owner))
+            tokens_found = glob.glob(jwt_regex)
+            if not tokens_found:
+                raise AirflowException("Could not find any token related to user {0}".format(self.owner))
+            jwt_token_file = tokens_found[0]
+        else:
+            filename = "{0}__{1}{2}".format(self.project_name, self.owner, JWT_FILE_SUFFIX)
+            jwt_token_file = os.path.join(secret_dir, filename)
 
         if not os.path.isfile(jwt_token_file):
             raise AirflowException('Could not read JWT file for user {}'.format(self.owner))

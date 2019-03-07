@@ -82,6 +82,14 @@ bash 'init_airflow_db' do
     EOF
 end
 
+bash 'create_owners_idx' do
+  user "root"
+  group "root"
+  code <<-EOH
+       set -e
+       #{node['ndb']['scripts_dir']}/mysql-client.sh -e \"call airflow.create_idx('airflow', 'dag', 'owners', 'owners_idx')\"
+       EOH
+end
 
 include_recipe "hops_airflow::webserver"
 include_recipe "hops_airflow::scheduler"

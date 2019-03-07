@@ -74,7 +74,7 @@ attribute "airflow/config/scheduler/min_file_process_interval",
 attribute "airflow/config/scheduler/dag_dir_list_interval",
           :description => "How often in seconds to scan the DAGs directory for new files.",
           :type => 'string'
- 
+
 attribute "sqoop/dir",
           :description => "Installation directory for the sqoop binaries/config files",
           :type => 'string'

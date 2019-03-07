@@ -2,3 +2,4 @@ AIRFLOW_HOME="<%= @config["core"]["airflow_home"] %>"
 SCHEDULER_RUNS="<%= node["airflow"]["scheduler_runs"] %>"
 PYTHONPATH=<%= node["airflow"]["base_dir"] %>:$PYTHONPATH
 SCHEDULER_DURATION="<%= node["airflow"]["scheduler_duration"] %>"
+SQOOP_HOME="<%= node["sqoop"]["base_dir"] %>"

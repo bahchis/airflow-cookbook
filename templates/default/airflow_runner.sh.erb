@@ -5,5 +5,7 @@
 # Activate airflow anaconda environment
 source <%= node['conda']['base_dir'] %>/bin/activate airflow
 
+export PATH=$PATH:$SQOOP_HOME/bin
+
 # Run airflow with the supplied arguments
 <%= node['airflow']['bin_path'] %>/airflow $@
