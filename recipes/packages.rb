@@ -12,9 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-magic_shell_environment 'SLUGIFY_USES_TEXT_UNIDECODE' do
-  value 'yes'
-end
+ENV['SLUGIFY_USES_TEXT_UNIDECODE'] = 'yes'
 
 python_runtime node["airflow"]["python_runtime"] do
   version node["airflow"]["python_version"]
