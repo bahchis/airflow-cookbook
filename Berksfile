@@ -18,4 +18,3 @@ metadata
 
 cookbook 'apt', '~> 7.0'
 cookbook 'poise-python', '~> 1.7'
-cookbook 'magic_shell', '~> 1.0'

@@ -27,4 +27,3 @@ chef_version     '>12'
 
 depends 'apt'
 depends 'poise-python'
-depends 'magic_shell'
