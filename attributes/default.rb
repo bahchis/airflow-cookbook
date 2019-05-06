@@ -33,9 +33,10 @@ default["airflow"]["env_path"] = node["platform_family"] == "debian" ? "/etc/def
 
 
 # Python config
-default["airflow"]["python_runtime"] = "2"
-default["airflow"]["python_version"] = "2.7"
-default["airflow"]["pip_version"] = true
+default["airflow"]["python_runtime"] = "3"
+default["airflow"]["python_version"] = "3.5"
+default["airflow"]["pip_version"] = '18.0'
+default["airflow"]["get_pip_url"] = 'https://bootstrap.pypa.io/3.3/get-pip.py'
 
 # Configurations stated below are required for this cookbook and will be written to airflow.cfg, you can add more config by using structure like:
 # default["airflow"]["config"]["CONFIG_SECTION"]["CONFIG_ENTRY"]
