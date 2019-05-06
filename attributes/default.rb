@@ -38,8 +38,8 @@ default['sqoop']['url']               = "#{node['download_url']}/sqoop-#{node['s
 default["sqoop"]["port"]              = "16000"
 
 
-
-default['airflow']["operators"]       = "hive,mysql,kubernetes,password,hdfs,slack,ssh,jdbc,mysql,devel_hadoop,crypto"
+## Remove devel_hadoop which brings snakebite[kerberos] which does not work on Python 3
+default['airflow']["operators"]       = "hive,mysql,kubernetes,password,hdfs,slack,ssh,jdbc,mysql,crypto"
 
 #default['airflow']["user_uid"] = 9999
 #default['airflow']["group_gid"] = 9999

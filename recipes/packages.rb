@@ -19,7 +19,12 @@
 #end
 
 # Obtain the current platform name
-platform = node['platform'].to_s
+platform = node['platform_family'].to_s
+
+if platform == 'rhel' and node['rhel']['epel'].downcase == "true"
+  epel_release = { name: 'epel-release', version: ''}
+  node.default['airflow']['dependencies'][platform][:default] << epel_release
+end
 
 # Default dependencies to install
 dependencies_to_install = []

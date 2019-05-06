@@ -52,10 +52,6 @@ default['airflow']['packages'] =
     statsd: [{ name: 'statsd', version: '>=3.0.1' }],
     vertica: [{ name: 'vertica-python', version: '>=0.5.1' }],
     ldap: [{ name: 'ldap3', version: '>=0.9.9.1' }],
-    kerberos: [{ name: 'pykerberos', version: '>=1.1.8' },
-               { name: 'thrift_sasl', version: '>=0.2.0' },
-               #{ name: 'snakebite[kerberos]', version: '>=2.7.8' }
-              ],
     password: [{ name: 'bcrypt', version: '>=2.0.0' },
                { name: 'flask-bcrypt', version: '>=0.7.1' }],
     github_enterprise: [{ name: 'Flask-OAuthlib', version: '>=0.9.1' }],
@@ -75,7 +71,7 @@ default['airflow']['packages'] =
 # OS packages needed for the above python packages.
 default['airflow']['dependencies'] =
   {
-    ubuntu:
+    debian:
     {
       default: [{ name: 'python-dev', version: '' },
                 { name: 'build-essential', version: '' },
@@ -94,11 +90,10 @@ default['airflow']['dependencies'] =
       webhdfs: [{ name: 'libkrb5-dev', version: '' }],
       kerberos: [{ name: 'libsasl2-dev', version: '' }]
     },
-    centos:
+    rhel:
     {
       default: [{ name: 'gcc', version: '' },
                 { name: 'gcc-c++', version: '' },
-                { name: 'epel-release', version: '' },
                 { name: 'libjpeg-devel', version: '' },
                 { name: 'zlib-devel', version: '' },
                 { name: 'python-devel', version: '' }],
