@@ -24,6 +24,11 @@ end
 node.override['airflow']["config"]["webserver"]["hopsworks_host"] = hopsworks_ip
 node.override['airflow']["config"]["webserver"]["hopsworks_port"] = hopsworks_port
 
+mysqld_ip = private_recipe_ip("ndb", "mysqld")
+
+node.override['airflow']["config"]["celery"]["celery_result_backend"] = "db+mysql://#{node['airflow']['mysql_user']}:#{node['airflow']['mysql_password']}@#{mysqld_ip}:3306/airflow"
+node.override['airflow']["config"]["core"]["sql_alchemy_conn"] = "mysql://#{node['airflow']['mysql_user']}:#{node['airflow']['mysql_password']}@#{mysqld_ip}:3306/airflow"
+
 template "#{node["airflow"]["config"]["core"]["airflow_home"]}/airflow.cfg" do
   source "airflow.cfg.erb"
   owner node["airflow"]["user"]
