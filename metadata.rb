@@ -20,6 +20,7 @@ description      'Installs and configures Airflow workflow management platform.'
 long_description 'Installs and configures Airflow workflow management platform. More information about Airflow can be found here: https://github.com/airbnb/airflow'
 source_url       'https://github.com/bahchis/airflow-cookbook'
 issues_url       'https://github.com/bahchis/airflow-cookbook/issues'
+
 version          '1.2.4'
 supports         'ubuntu', '>= 14.04'
 supports         'centos', '>= 7.0'
