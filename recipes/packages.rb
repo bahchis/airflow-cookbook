@@ -12,10 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+ENV['SLUGIFY_USES_TEXT_UNIDECODE'] = 'yes'
+
 python_runtime node["airflow"]["python_runtime"] do
   version node["airflow"]["python_version"]
   provider :system
   pip_version node["airflow"]["pip_version"]
+  get_pip_url node["airflow"]["get_pip_url"]
 end
 
 # Obtain the current platform name
