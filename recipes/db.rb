@@ -9,6 +9,8 @@ bash 'create_airflow_db' do
       #{exec} -e \"CREATE DATABASE IF NOT EXISTS airflow CHARACTER SET latin1\"	
       #{exec} -e \"GRANT ALL PRIVILEGES ON airflow.* TO '#{node['airflow']['mysql_user']}'@'#{private_ip}' IDENTIFIED BY '#{node['airflow']['mysql_password']}'\"
       #{exec} -e \"GRANT ALL PRIVILEGES ON airflow.* TO '#{node['airflow']['mysql_user']}'@'#{fqdn}' IDENTIFIED BY '#{node['airflow']['mysql_password']}'\"
+      #{exec} -e \"GRANT ALL PRIVILEGES ON airflow.* TO '#{node['airflow']['mysql_user']}'@'127.0.0.1' IDENTIFIED BY '#{node['airflow']['mysql_password']}'\"
+      #{exec} -e \"GRANT ALL PRIVILEGES ON airflow.* TO '#{node['airflow']['mysql_user']}'@'localhost' IDENTIFIED BY '#{node['airflow']['mysql_password']}'\"
     EOH
   not_if "#{exec} -e 'show databases' | grep airflow"	
 end
