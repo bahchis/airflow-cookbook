@@ -1,5 +1,11 @@
 private_ip = my_private_ip()
 fqdn = node['fqdn']
+
+if node['install']['localhost'] == "true"
+  fqdn = "localhost"
+end
+
+
 exec = "#{node['ndb']['scripts_dir']}/mysql-client.sh"
 
 bash 'create_airflow_db' do	
