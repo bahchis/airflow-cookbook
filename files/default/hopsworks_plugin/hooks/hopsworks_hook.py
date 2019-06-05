@@ -26,6 +26,7 @@ import glob
 from time import sleep
 from requests import exceptions as requests_exceptions
 from requests.auth import AuthBase
+from json.decoder import JSONDecodeError as json_exception
 
 from airflow.hooks.base_hook import BaseHook
 from airflow.utils.log.logging_mixin import LoggingMixin
@@ -48,13 +49,35 @@ PROJECT_ID_KEY = 'projectId'
 # Key for project name for PROJECT_INFO_ID response
 PROJECT_NAME_KEY = 'projectName'
 
-RUN_JOB = ("POST", "hopsworks-api/api/project/{project_id}/jobs/{job_name}/executions?action=start")
+BASE_API = "hopsworks-api/api"
+
+##############
+## Jobs API ##
+##############
+
+RUN_JOB = ("POST", BASE_API + "/project/{project_id}/jobs/{job_name}/executions?action=start")
 # Get the latest execution
-JOB_STATE = ("GET", "hopsworks-api/api/project/{project_id}/jobs/{job_name}/executions?sort_by=appId:desc&limit=1")
+JOB_STATE = ("GET", BASE_API + "/project/{project_id}/jobs/{job_name}/executions?sort_by=appId:desc&limit=1")
+
+##################
+## Projects API ##
+##################
+
 # Get Project info from name
-PROJECT_INFO_NAME = ("GET", "hopsworks-api/api/project/getProjectInfo/{project_name}")
+PROJECT_INFO_NAME = ("GET", BASE_API + "/project/getProjectInfo/{project_name}")
 # Get Project info from id
-PROJECT_INFO_ID = ("GET", "hopsworks-api/api/project/{project_id}")
+PROJECT_INFO_ID = ("GET", BASE_API + "/project/{project_id}")
+
+#######################
+## Model service API ##
+#######################
+
+# Get Tf serving instances for a project
+PROJECT_SERVING_INSTANCES = ("GET", BASE_API + "/project/{project_id}/serving")
+# Create or update a serving instance
+CREATE_UPDATE_SERVING_INSTANCE = ("PUT", BASE_API + "/project/{project_id}/serving")
+# Start or stop a model serving instance
+START_STOP_SERVING_INSTANCE = ("POST", BASE_API + "/project/{project_id}/serving/{instance_id}?action={action}")
 
 class HopsworksHook(BaseHook, LoggingMixin):
     """
@@ -116,7 +139,46 @@ class HopsworksHook(BaseHook, LoggingMixin):
         item = response['items'][0]
         return item['state']
 
-    def _do_api_call(self, method, endpoint):
+    def get_model_serving_instances(self):
+        """
+        Get all Tensorflow serving instances for a project
+        """
+        method, endpoint = PROJECT_SERVING_INSTANCES
+        endpoint = endpoint.format(project_id=self.project_id)
+        return self._do_api_call(method, endpoint)
+
+    def create_update_serving_instance(self, parameters):
+        """
+        Create or update a serving instance. If serving ID is provided
+        it will update that instance. If not it will create a new one
+        """
+        method, endpoint = CREATE_UPDATE_SERVING_INSTANCE
+        endpoint = endpoint.format(project_id=self.project_id)
+        self._do_api_call(method, endpoint, parameters)
+        
+    def start_model_serving_instance(self, instance_id):
+        """
+        Start a model serving instance identified by an ID
+        
+        :param instance_id: Numerical identifier of a model serving instance
+        :type instance_id: int
+        """
+        method, endpoint = START_STOP_SERVING_INSTANCE
+        endpoint = endpoint.format(project_id=self.project_id, instance_id=instance_id, action="START")
+        self._do_api_call(method, endpoint)
+        
+    def stop_model_serving_instance(self, instance_id):
+        """
+        Stop a model serving instance identified by an ID
+        
+        :param instance_id: Numerical identifier of a model serving instance
+        :type instance_id: int
+        """
+        method, endpoint = START_STOP_SERVING_INSTANCE
+        endpoint = endpoint.format(project_id=self.project_id, instance_id=instance_id, action="STOP")
+        self._do_api_call(method, endpoint)
+
+    def _do_api_call(self, method, endpoint, data=None):
         url = "https://{host}:{port}/{endpoint}".format(
             host = self.hopsworks_conn.host,
             port = self.hopsworks_conn.port,
@@ -125,6 +187,8 @@ class HopsworksHook(BaseHook, LoggingMixin):
             requests_method = requests.get
         elif "POST" == method:
             requests_method = requests.post
+        elif "PUT" == method:
+            requests_method = requests.put
         else:
             raise AirflowException("Unexpected HTTP method: " + method)
 
@@ -135,9 +199,13 @@ class HopsworksHook(BaseHook, LoggingMixin):
                 auth = AuthorizationToken(jwt)
                 # Until we find a better approach to load trust anchors and
                 # bypass hostname verification, disable verify
-                response = requests_method(url, auth=auth, verify=False)
+                response = requests_method(url, auth=auth, verify=False, json=data)
                 response.raise_for_status()
-                return response.json()
+                try:
+                    return response.json()
+                except json_exception:
+                    # No content in respose 201 CREATED
+                    return ""
             except requests_exceptions.SSLError as ex:
                 raise AirflowException(ex)
             except requests_exceptions.RequestException as ex:
@@ -145,6 +213,7 @@ class HopsworksHook(BaseHook, LoggingMixin):
                     raise AirflowException("Error making HTTP request. Response: {0} - Status Code: {1}"
                                            .format(ex.response.content, ex.response.status_code))
                 self.log.warn("Error making HTTP request, retrying...")
+                self.log.warn("Code {0} - Reason {1}".format(ex.response.status_code, ex.response.content))
                 attempts += 1
                 sleep(1)
         
