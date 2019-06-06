@@ -116,6 +116,8 @@ remote_file "#{node['sqoop']['base_dir']}/lib/mysql-connector-java-#{node['hive2
   action :create_if_missing
 end
 
+
+
 service_name="sqoop"
 
 service service_name do

@@ -1,6 +1,6 @@
 [Unit]
 Description = Sqoop server
-After = syslog.target network.target remote-fs.target
+After = syslog.target network.target remote-fs.target <%= @deps %>
 
 [Service]
 Environment="HADOOP_MAPRED_HOME=<%= node['hops']['base_dir'] %>/share/hadoop/mapreduce"

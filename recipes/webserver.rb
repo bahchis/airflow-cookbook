@@ -12,6 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+deps = ""
+if exists_local("ndb", "mysqld") 
+  deps = "mysqld.service"
+end  
+
 if (node["airflow"]["init_system"] == "upstart") 
   service_target = "/etc/init/airflow-webserver.conf"
   service_template = "init_system/upstart/airflow-webserver.conf.erb"
@@ -29,6 +34,7 @@ template service_target do
   group "root"
   mode "0644"
   variables({
+    :deps => deps,              
     :user => node["airflow"]["user"], 
     :group => node["airflow"]["group"],
     :run_path => node["airflow"]["run_path"],
