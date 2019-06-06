@@ -14,7 +14,7 @@
 
 [Unit]
 Description=Airflow scheduler daemon
-After=network.target
+After=network.target <%= @deps %>
 
 [Service]
 EnvironmentFile=<%= @env_path %>
