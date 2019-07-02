@@ -140,6 +140,7 @@ default['airflow']["config"]["github_enterprise"]["api_rev"] = 'v3'
 default['airflow']["config"]["core"]["executor"]  = "LocalExecutor"
 
 default['airflow']['config']['core']['load_examples'] = false
+default['airflow']['config']['core']['default_timezone'] = "system"
 
 # The base url of your website as airflow cannot guess what domain or
 # cname you are using. This is used in automated emails that
