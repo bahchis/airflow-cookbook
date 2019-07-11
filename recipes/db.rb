@@ -1,7 +1,7 @@
 private_ip = my_private_ip()
 fqdn = node['fqdn']
 
-if node['install']['localhost'] == "true"
+if node['install']['localhost'].casecmp?("true") == 0
   fqdn = "localhost"
 end
 
